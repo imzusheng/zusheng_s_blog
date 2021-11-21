@@ -1,0 +1,115 @@
+#login {
+  height: 100vh;
+  width: 100%;
+  background: url("~@/assets/img/svg.png") no-repeat center bottom;
+  background-size: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .login-container {
+    width: 60%;
+    max-width: 600px;
+    padding: 24px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    background: rgba(245, 246, 248, .6);
+    box-shadow: 1px 2px 10px rgba(245, 246, 248, .1), -1px -2px 10px rgba(235, 236, 238, .1);
+
+    .login-logo {
+      img {
+        max-width: 70vw;
+        max-height: 100px;
+      }
+    }
+
+    .ant-form {
+      width: 100%;
+
+      .ant-form-item {
+        padding: 0 0 12px;
+
+        .ant-form-item-control-input {
+          border-radius: 8px;
+          overflow: hidden;
+          border: 1px solid rgba(0, 0, 0, .1);
+
+          .ant-form-item-control-input-content {
+            border: none;
+            border-radius: 6px;
+
+            .ant-input-password {
+              padding: 0;
+              margin: 0;
+              border: none;
+              border-radius: 6px;
+
+              .ant-input-suffix {
+                margin-left: 0;
+              }
+
+              .ant-input {
+                padding: 6.5px 11px;
+                width: calc(100% - 30px);
+              }
+            }
+          }
+        }
+
+        input {
+          height: 52px;
+          border: none;
+        }
+      }
+    }
+
+    .login-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 0 24px;
+
+      a {
+        margin: 3px 0;
+      }
+    }
+
+    .ant-btn {
+      border-radius: 30px;
+    }
+  }
+
+  @media @max768 {
+    & {
+      background: url("~@/assets/img/svg.png") no-repeat center bottom;
+      background-size: 200%;
+
+      .login-container {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      input {
+        height: 40px;
+      }
+    }
+  }
+
+  @media @max576 {
+    & {
+      background: url("~@/assets/img/svg.png") no-repeat center bottom;
+      background-size: 400%;
+
+      .login-container {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+      }
+    }
+  }
+}

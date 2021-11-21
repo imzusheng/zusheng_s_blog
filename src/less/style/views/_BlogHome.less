@@ -1,0 +1,24 @@
+#blog {
+  width: 768px;
+  margin: 24px auto 24px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  @media @max768 {
+    & {
+      width: 100%;
+      padding: 0;
+      margin: 0 0 24px;
+
+      .article, .article-skeleton {
+        border-radius: 0 !important;
+      }
+    }
+  }
+
+  .skeleton {
+    padding: 40px 20px;
+  }
+}
+

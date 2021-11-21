@@ -1,0 +1,658 @@
+.pro-dark {
+  background: @color-dark-bg !important;
+
+  .ant-breadcrumb {
+    span, svg {
+      color: @color-dark-fontColor !important;
+    }
+  }
+
+  .chart {
+    background: rgb(66, 66, 66);
+  }
+
+  #logs {
+    div, span, h3, p {
+      color: @color-dark-fontColor;
+    }
+
+    li {
+      color: rgba(120, 120, 120, 1);
+    }
+
+    h2 {
+      color: @color-dark-fontColor;
+    }
+
+    .ant-list {
+      border: none;
+
+      ul[class="ant-list-items"] {
+        box-shadow: none;
+        background: none;
+
+        > li {
+          &:not(:last-child) {
+            border-bottom: 1px solid rgba(100, 100, 100, .6) !important;
+          }
+        }
+      }
+    }
+  }
+
+  #admin-setting {
+    .ant-anchor-wrapper {
+      box-shadow: none !important;
+      background: @color-dark-card !important;
+
+      .ant-anchor-link {
+        .ant-anchor-link-title, svg {
+          color: @color-dark-fontColor !important;
+        }
+      }
+
+      .ant-anchor-link-active {
+        .ant-anchor-link-title, svg {
+          color: #1890ff !important;
+        }
+      }
+    }
+
+    .ant-card {
+      background: @color-dark-card !important;
+      border: none !important;
+
+      .ant-card-head {
+        border-bottom: 1px solid @color-dark-fontColorUnAct;
+
+        .ant-card-head-title {
+          font-size: 19px;
+          font-weight: 600;
+          color: @color-dark-fontColor !important;
+        }
+
+        h4[class="setting-card-title"] {
+          font-weight: 600;
+          //color: @fontColor;
+        }
+      }
+    }
+
+    .ant-form {
+      .ant-input[data-disable=true] {
+        color: @color-dark-fontColorUnAct;
+      }
+
+      .ant-input[data-disable=false] {
+        color: @color-dark-fontColorAct;
+      }
+
+      .ant-form-item-label {
+        label {
+          color: @color-dark-fontColor !important;
+        }
+      }
+    }
+  }
+
+  .ant-layout-sider {
+    background: @color-dark-transit !important;
+
+    .nav-text, svg {
+      color: @color-dark-fontColor !important;
+    }
+
+    .ant-layout-sider-children {
+      background: inherit;
+
+      .ant-menu {
+        background: inherit;
+
+        .ant-menu-item {
+          .nav-text {
+            background: transparent;
+          }
+        }
+      }
+    }
+
+    .ant-layout-sider-zero-width-trigger {
+      background: inherit;
+    }
+  }
+
+  .ant-layout-header {
+    background: @color-dark-card;
+    box-shadow: none !important;
+  }
+
+  .ant-layout-content {
+    background: @color-dark-bg !important;
+  }
+
+  .ant-statistic {
+    background: @color-dark-card !important;
+    box-shadow: none !important;
+
+    .ant-statistic-title,
+    .ant-statistic-content-value-int,
+    .ant-statistic-content-suffix,
+    .ant-statistic-content-value {
+      color: @color-dark-fontColor;
+      font-weight: 600;
+    }
+  }
+
+  .ant-card {
+    background: @color-dark-card;
+    box-shadow: none !important;
+
+    h6, p, h4, .card-footer span {
+      color: @color-dark-fontColor !important;
+      font-weight: 600;
+    }
+  }
+
+  .nav-text {
+    color: @color-dark-fontColor;
+    font-weight: 600;
+    background: @color-dark-card;
+  }
+
+  .ant-list-item, .image-card-item {
+    box-shadow: none !important;
+    background: @color-dark-card;
+    border-bottom: none !important;
+  }
+
+  .ant-list-item-main {
+    .ant-list-item-meta-content {
+      .ant-list-item-meta-title {
+        span {
+          color: @color-dark-fontColor;
+          font-weight: 600;
+        }
+      }
+
+      .ant-list-item-meta-description {
+        color: @color-dark-fontColor;
+      }
+    }
+
+    > span {
+      color: @color-dark-fontColor;
+    }
+
+    .ant-list-item-action {
+      > li {
+        span {
+          color: @color-dark-fontColor;
+        }
+      }
+    }
+  }
+
+  .ant-table-wrapper {
+    background: rgb(24, 24, 24);
+    box-shadow: none;
+
+    .ant-table {
+      background: rgb(24, 24, 24);
+
+      // no data
+      .ant-table-placeholder {
+        background: rgb(24, 24, 24);
+
+        .ant-empty-description {
+          color: @color-dark-fontColor;
+        }
+      }
+
+      .ant-table-cell-fix-right, .ant-table-cell-fix-right-first, .ant-table-row-cell-ellipsis, .ant-table-cell-fix-left, .ant-table-cell-fix-left-last {
+        background: rgb(24, 24, 24);
+      }
+
+      span {
+        font-weight: 600;
+        color: @color-dark-fontColor;
+      }
+
+      .ant-table-thead {
+        > tr {
+          > th {
+            border-bottom: none;
+            background: @color-dark-card;
+          }
+        }
+      }
+
+      .ant-table-tbody {
+        tr:hover {
+          background: @color-dark-card !important;
+
+          > td {
+            background: @color-dark-card !important;
+          }
+        }
+
+        td {
+          color: @color-dark-fontColor;
+          border-bottom: 1px solid rgb(60, 60, 60) !important;
+        }
+
+        a {
+          color: @color-dark-fontColor;
+        }
+      }
+    }
+
+    .ant-table-pagination {
+      li {
+        background: rgb(24, 24, 24);
+
+        > a {
+          border: none;
+          color: @color-dark-fontColor;
+          background: transparent;
+        }
+      }
+    }
+  }
+
+  .ant-tabs {
+    box-shadow: none;
+    color: @color-dark-fontColor;
+
+    .ant-tabs-tab-active, .ant-tabs-tab {
+      font-weight: 600;
+    }
+
+    .ant-tabs-tab {
+      color: @color-dark-fontColor;
+    }
+  }
+
+  .blog-edit {
+    > div {
+      //background: @color-dark-card;
+      box-shadow: none;
+
+      h2 {
+        color: @color-dark-fontColor;
+      }
+
+      .ant-tabs {
+        background: @color-dark-card;
+      }
+    }
+  }
+
+  .ant-form-item-label {
+    > label {
+      color: @color-dark-fontColor;
+    }
+  }
+
+  .ant-input, .ant-input:hover {
+    background: @color-dark-card;
+    color: @color-dark-fontColor;
+    box-shadow: none;
+    border: 1px solid rgb(66, 66, 66);
+    border-radius: 8px;
+  }
+
+  .ant-input-textarea-show-count::after {
+    color: rgb(66, 66, 66);
+  }
+
+  .ant-upload-drag {
+    border-radius: 8px;
+    background: rgb(34, 34, 34) !important;
+    border: 1px dashed rgb(100, 100, 100) !important;
+
+    .ant-upload-drag-container {
+      p {
+        color: @color-dark-fontColor;
+      }
+
+      span {
+        color: @color-dark-fontColor;
+      }
+
+      svg {
+        color: @color-dark-fontColor;
+      }
+    }
+  }
+
+  .ant-upload-list-item-info {
+    .ant-upload-list-item-name {
+      color: @color-dark-fontColor !important;
+
+      &:hover {
+        background: transparent !important;
+      }
+    }
+
+    svg {
+      color: @color-dark-fontColor !important;
+    }
+  }
+
+  .ant-result {
+    > div {
+      color: @color-dark-fontColor;
+      font-weight: 600;
+    }
+  }
+
+  .ant-steps {
+    .ant-steps-item-title,
+    .ant-steps-item-subtitle,
+    .ant-steps-item-description {
+      color: @color-dark-fontColor !important;
+
+      > span {
+        color: @color-dark-fontColor !important;
+      }
+    }
+  }
+
+  .ant-timeline {
+    // 文字内容
+    .ant-timeline-item-content {
+      color: @color-dark-fontColor;
+    }
+  }
+
+  .ant-modal {
+    div, span {
+      color: @color-dark-fontColor;
+    }
+
+    button {
+      > span {
+        color: @color-dark-fontColorAct;
+      }
+    }
+
+    h1, h2, h3, h4 {
+      color: @color-dark-fontColorAct;
+    }
+
+    .ant-modal-content {
+      border-radius: 16px;
+      overflow: hidden;
+      background: @color-dark-card !important;
+
+      .ant-modal-header {
+        background: @color-dark-card !important;
+        border-bottom: 1px solid rgba(0, 0, 0, .8);
+      }
+
+      .ant-modal-footer {
+        border-top: 1px solid rgba(0, 0, 0, .8);
+      }
+    }
+  }
+
+  @media @max768 {
+    .ant-modal {
+      .ant-modal-content {
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+.blog-dark {
+  background: @color-dark-bg;
+  min-height: 100vh;
+
+  #login {
+    .login-container {
+      background: rgba(30, 30, 30, .9);
+      box-shadow: none !important;
+
+      h1, h2, svg {
+        color: @color-dark-fontColor;
+      }
+
+      .ant-form {
+        .ant-form-item {
+          .ant-form-item-control-input {
+            border: none;
+
+            .ant-form-item-control-input-content {
+              .ant-input-password {
+                background: rgba(60, 60, 60, .9);
+
+                .ant-input {
+                  background: transparent !important;
+                }
+              }
+            }
+          }
+
+          input {
+            background: rgba(60, 60, 60, .9);
+            color: @color-dark-fontColor;
+          }
+        }
+      }
+    }
+
+    @media @max768 {
+      & {
+        background: url("~@/assets/img/svg.png") no-repeat center bottom;
+        background-size: 200%;
+
+        .login-container {
+          background: transparent;
+        }
+      }
+    }
+
+    @media @max576 {
+      & {
+        background: url("~@/assets/img/svg.png") no-repeat center bottom;
+        background-size: 400%;
+
+        .login-container {
+          background: transparent;
+        }
+      }
+    }
+  }
+
+  #notFound {
+    h1, p {
+      font-weight: 600;
+      color: @color-dark-fontColor;
+    }
+  }
+
+  #blog-detail-anchor {
+    background: transparent !important;
+
+    .ant-anchor-wrapper {
+      background: transparent !important;
+
+      a {
+        color: @color-dark-fontColor;
+      }
+    }
+  }
+
+  .blog-header {
+    background: @color-dark-transit;
+    box-shadow: none;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+
+    .blog-logo {
+      background: url("~@/assets/img/logo-dark.png") no-repeat center center;
+      background-size: auto 48px;
+    }
+
+    svg {
+      color: @color-dark-fontColor !important;
+    }
+  }
+
+  #blog-list {
+    .article {
+      box-shadow: none;
+      background: @color-dark-card;
+      color: @color-dark-fontColor;
+
+      div, span, svg {
+        color: @color-dark-fontColor !important;
+      }
+    }
+  }
+
+  .comments {
+    h2, p, span, svg, a {
+      color: @color-dark-fontColor;
+    }
+
+    h2, p {
+      font-weight: 600;
+    }
+
+    textarea[class="ant-input"] {
+      box-shadow: none !important;
+      background: @color-dark-card !important;
+      color: @color-dark-fontColor;
+    }
+
+    .commentEl {
+      box-shadow: none;
+      background: @color-dark-card;
+    }
+
+    .ant-btn {
+      span {
+        color: #fff !important;
+      }
+    }
+  }
+
+  #footer {
+    li {
+      box-shadow: none !important;
+      background: @color-dark-card !important;
+    }
+
+    p, a, span {
+      color: @color-dark-fontColor !important;
+    }
+  }
+
+  #blog-detail {
+    background: @color-dark-transit !important;
+    box-shadow: none !important;
+
+    .blog-detail-content {
+      border-left: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    .codeView {
+      > div {
+        color: @color-dark-fontColor;
+      }
+    }
+
+    h1, h2, h3, h4, h5, h6, p, li, a {
+      color: @color-dark-fontColorAct;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 600;
+    }
+
+    pre, img {
+      box-shadow: none !important;
+    }
+  }
+
+  .search-container {
+    background: @color-dark-bg;
+
+    input {
+      background: @color-dark-card !important;
+      color: @color-dark-fontColor !important;
+    }
+
+    div {
+      color: @color-dark-fontColor !important;
+    }
+  }
+
+  .ant-tabs {
+
+    .ant-tabs-bar {
+      border-bottom: none;
+    }
+
+    .ant-tabs-tab {
+      color: @color-dark-fontColorUnAct !important;
+    }
+
+    .ant-tabs-tab-active {
+      color: @color-dark-fontColor !important;
+    }
+  }
+
+  .skeleton {
+    box-shadow: none !important;
+  }
+
+  .ant-select {
+    .ant-select-selector {
+      background: @color-dark-transit;
+      border-radius: 4px;
+    }
+  }
+
+  .ant-drawer-content-wrapper {
+    .ant-drawer-content, .ant-drawer-header {
+      background: @color-dark-card;
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
+
+      div {
+        color: @color-dark-fontColor;
+      }
+    }
+
+    span, a, svg, li {
+      color: @color-dark-fontColor !important;
+    }
+  }
+
+  @media @max768 {
+    & {
+      .blog-header {
+        border-bottom: 1px solid rgba(100, 100, 100, .3) !important;
+
+        .blog-logo {
+          background: url("~@/assets/img/logo-dark.png") no-repeat center center;
+          background-size: auto 36px;
+        }
+      }
+
+      #blog-list {
+        .article {
+          border-bottom: 1px solid rgba(100, 100, 100, .3) !important;
+        }
+      }
+
+      .comments {
+        .commentEl {
+          box-shadow: none;
+          background: transparent;
+        }
+      }
+    }
+  }
+}

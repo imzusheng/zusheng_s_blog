@@ -1,0 +1,88 @@
+#admin-wrap {
+  min-width: 350px;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  width: 100%;
+  position: relative;
+
+  .ant-layout-sider {
+    background: @color-dark-transit;
+    z-index: 9999;
+
+    .admin-logo {
+      width: 100%;
+
+      > img {
+        width: 180px;
+        margin: 12px 10px 12px;
+      }
+
+      //height: 60px;
+      //background: url("~@/assets/img/logo-dark.png") no-repeat center center;
+      //background-size: contain;
+      //transform: scale(.8);
+    }
+
+    &[data-menu-breakpoint="true"] {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+    }
+
+    .ant-layout-sider-children {
+      background: inherit;
+
+      .ant-menu {
+        background: inherit;
+
+        .ant-menu-item {
+          margin: 0 !important;
+
+          .nav-text {
+            background: transparent;
+          }
+        }
+
+        .ant-menu-item-selected {
+          .nav-text, svg {
+            color: @color-dark-fontColorAct !important;
+          }
+        }
+      }
+    }
+
+    .ant-layout-sider-zero-width-trigger {
+      background: inherit;
+    }
+  }
+
+  .ant-layout-content {
+    overflow-y: auto;
+    //overflow-x: hidden;
+    position: relative;
+    z-index: 1;
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .ant-breadcrumb {
+        padding: 24px 0 0 30px;
+      }
+
+      .admin-changeTheme {
+        padding: 24px 30px 0 0;
+      }
+    }
+
+    #mask {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      z-index: 9999;
+    }
+  }
+}

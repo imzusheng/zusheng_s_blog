@@ -1,0 +1,63 @@
+@font-face {
+  font-family: SF Pro Display;
+  src: url("~@/assets/font/sf-pro-display_medium.woff2");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: SF Pro Display;
+  src: url("~@/assets/font/sf-pro-display_semibold.woff2");
+  font-weight: bold;
+}
+
+body, html {
+  max-width: 2160px;
+  min-width: 350px;
+  position: relative;
+}
+
+* {
+  letter-spacing: 0;
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  text-align: left;
+  font-family: open sans, Helvetica, Arial, sans-serif;
+  //font-family: 'Microsoft Yahei', 'Microsoft Sans Serif', sans-serif, SF Pro Display, Helvetica Neue, Helvetica, Arial, sans-serif;
+  -webkit-user-drag: none;
+  //scrollbar-width: 12px;
+}
+
+//// 滚动条整体宽度
+//::-webkit-scrollbar {
+//  width: 8px;
+//}
+
+//
+//// 滚动条滑槽样式
+//::-webkit-scrollbar-track {
+//  background: #f2f2f2;
+//}
+//
+//// 滚动条样式
+//::-webkit-scrollbar-thumb {
+//  border-radius: 8px;
+//  background: #777;
+//  //-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+//}
+
+.user-select-not {
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.will-change {
+  will-change: auto;
+}
+
+.admin-section {
+  padding: 12px;
+}
