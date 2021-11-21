@@ -38,9 +38,9 @@ exports.getCity = ip => {
   return new Promise(resolve => {
     const queryData = querystring.stringify({
       ip,
-      key: '3fc70466cf3f14c1908d58252f8c9f3c' // 申请的接口请求key
+      key: config.juHeOpt.key // 申请的接口请求key
     })
-    const queryUrl = 'http://apis.juhe.cn/ip/ipNew?' + queryData
+    const queryUrl = config.juHeOpt.url + queryData
     request(queryUrl, (error, response, body) => {
       resolve({
         error: error ? this.errorHandle(error, filePath, 'getCity') : null,

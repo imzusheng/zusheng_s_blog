@@ -29,5 +29,9 @@ module.exports = {
   },
   jwtOpt: {
     key: 'blogShhhhhhhhh'
+  },
+  juHeOpt: {
+    url: 'http://apis.juhe.cn/ip/ipNew?',
+    key: '3fc70466cf3f14c1908d58252f8c9f3c'
   }
 }
