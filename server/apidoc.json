@@ -1,0 +1,24 @@
+{
+  "name": "blog",
+  "description": "API文档",
+  "version": "1.0.0",
+  "author": "Zusheng",
+  "url": "",
+  "sampleUrl": "http://",
+  "title": "blog.zusheng.club - API doc",
+  "order": [
+    "注册",
+    "登录",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10"
+  ]
+}

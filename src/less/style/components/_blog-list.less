@@ -1,0 +1,114 @@
+#blog-list {
+  width: 100%;
+
+  .article {
+    cursor: pointer;
+    padding: 16px;
+    width: 100%;
+    border-radius: 0;
+    margin: 0 0 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+
+    .article-container {
+      width: 100%;
+
+      .article-topic {
+        display: flex;
+        margin-bottom: 8px;
+
+        span {
+          font-size: 13px;
+          color: #86909c;
+          display: flex;
+
+          > div {
+            display: flex;
+          }
+
+          &[data-type="divider"] {
+            margin: 0 6px;
+          }
+
+          &[data-type="divider-point"] {
+            margin: 0 3px;
+          }
+        }
+      }
+
+      .article-content {
+        display: flex;
+        justify-content: space-between;
+
+        .article-content-left {
+          display: flex;
+          flex-direction: column;
+
+          .article-content-title {
+            font-size: 16px;
+            line-height: 1.5;
+            font-weight: 600;
+            margin-bottom: 8px;
+          }
+
+          .article-content-describe {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            margin-bottom: 8px;
+            color: #86909c;
+          }
+
+          .article-content-operate {
+            display: flex;
+            color: #86909c;
+
+            > span {
+              display: flex;
+              align-items: center;
+              font-size: 14px;
+              line-height: 1.5;
+              margin-right: 24px;
+
+              > .anticon {
+                margin-right: 4px;
+
+                svg {
+                  font-size: 14px;
+                  color: #86909c;
+                  opacity: .5;
+                }
+              }
+            }
+          }
+        }
+
+        .article-content-right {
+          > img {
+            width: 120px;
+            height: 80px;
+          }
+        }
+      }
+    }
+
+  }
+
+  .article-box-shadow {
+    border-radius: 16px;
+    box-shadow: 1px 2px 20px rgba(0, 0, 0, 0.1), -1px -2px 20px #ffffff;
+    border-bottom: none;
+  }
+
+  @media @max768 {
+    & {
+      > .article {
+        border-radius: 0;
+        margin: 0;
+        box-shadow: none;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+      }
+    }
+  }
+}

@@ -1,0 +1,173 @@
+#blog-detail {
+  width: 968px;
+  margin: 0 auto 128px;
+  padding: 0;
+  background: #ffffff;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.1), -1px -2px 8px #ffffff;
+
+  .skeleton {
+    width: 100%;
+    box-shadow: none;
+    padding: 12px;
+  }
+
+  > div {
+    display: flex;
+    align-items: start;
+
+    .blog-detail-content {
+      width: 0;
+      flex: 1;
+      box-sizing: border-box;
+      padding: 24px;
+      border-left: 1px solid rgba(0, 0, 0, .1);
+
+      h1 {
+        font-size: 2em;
+      }
+
+      .blog-detail-time {
+        margin: 16px 0 16px;
+        font-size: 14px;
+        color: #999;
+        display: flex;
+        align-items: center;
+      }
+
+      .codeView {
+        margin: 52px 0 52px;
+
+        div {
+          h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            padding: 8px;
+            margin: 24px 0 0
+          }
+
+          pre {
+            overflow: hidden;
+            border-radius: 4px;
+            margin: 10px;
+            box-shadow: 1px 3px 9px rgba(0, 0, 0, .1),
+              -1px -3px 9px #ffffff;
+            position: relative;
+
+            code {
+              font-size: 12px;
+              padding: 20px;
+              line-height: 1.5;
+              max-height: 300px;
+            }
+          }
+
+          .code-hidden {
+            overflow: hidden;
+
+            &:after {
+              content: '';
+              position: absolute;
+              z-index: 2;
+              height: 100%;
+              width: 100%;
+              top: 0;
+              left: 0;
+              cursor: pointer;
+              background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .6) 88%);
+            }
+
+            &:before {
+              content: '点击查看全部';
+              position: absolute;
+              z-index: 3;
+              color: #e89a3c;
+              left: 50%;
+              bottom: 12px;
+              font-size: 12px;
+              font-family: 'Microsoft Yahei', 'Microsoft Sans Serif', sans-serif, SF Pro Display, Helvetica Neue, Helvetica, Arial, sans-serif;
+              transform: translate(-50%, 0);
+            }
+          }
+
+          .code-show {
+            overflow: auto;
+            max-height: none;
+
+            &:after {
+              content: '';
+              display: none;
+            }
+
+            &:before {
+              content: '';
+              display: none;
+            }
+          }
+
+          h3 {
+            font-size: 1.2em;
+            font-weight: 600;
+          }
+
+          p {
+            margin: 0 !important;
+            font-size: 1em;
+            padding: 8px;
+            line-height: 1.6;
+
+            code {
+              padding: 2px;
+              border-radius: 4px;
+              background: rgba(200, 200, 200, .2);
+            }
+          }
+
+          a {
+            display: inline-block;
+            margin: 0;
+            padding: 6px 10px;
+            border-radius: 4px;
+            color: @fontColor-l-4;
+            background: @fontColor-l-2;
+          }
+
+          img {
+            max-height: 80vh;
+            width: 100%;
+            margin: 10px 0;
+            border-radius: 4px;
+            box-shadow: 1px 3px 9px #999,
+              -1px -3px 9px #ffffff;
+          }
+
+          ul {
+            padding: 10px;
+
+            li {
+              list-style: inside disc;
+              line-height: 1.6;
+              font-size: 1em;
+            }
+          }
+        }
+      }
+    }
+
+    .blog-detail-anchor {
+
+    }
+  }
+
+  @media @max1068 {
+    & {
+      width: 100%;
+      margin: 0 auto 64px;
+      border-radius: 0;
+
+      .blog-detail-content {
+        border: none !important;
+        padding: 16px !important;
+      }
+    }
+  }
+}

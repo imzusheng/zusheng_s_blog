@@ -1,0 +1,25 @@
+#admin-articles {
+  width: 100%;
+  padding: 24px;
+  background: transparent;
+
+  img {
+    display: block;
+  }
+
+  .ant-table-wrapper {
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  @media @max768 {
+    & {
+      padding: 24px 0 0;
+
+      .ant-table-wrapper {
+        padding: 0;
+        border-radius: 0;
+      }
+    }
+  }
+}

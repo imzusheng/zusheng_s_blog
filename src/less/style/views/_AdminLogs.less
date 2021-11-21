@@ -1,0 +1,60 @@
+#logs {
+  padding: 12px;
+
+  h2 {
+    margin: 12px;
+    padding: 6px;
+  }
+
+  .ant-row {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    .ant-col {
+      padding: 12px 0;
+    }
+  }
+
+  .ant-list {
+    padding: 12px;
+
+    ul[class="ant-list-items"] {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.1), -1px -2px 10px #ffffff;
+
+      > li {
+        padding: 12px;
+
+        .ant-list-item-action {
+          float: none;
+          margin: 4px 0 0;
+          text-align: right;
+        }
+
+        &:not(:last-child) {
+          border-bottom: 1px solid rgba(100, 100, 100, .3) !important;
+        }
+      }
+    }
+  }
+
+  @media @max768 {
+    & {
+      padding: 12px 0 0;
+
+      .ant-list {
+        padding: 0;
+
+        ul[class="ant-list-items"] {
+          border-radius: 0;
+        }
+
+        .ant-list-item-action {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
