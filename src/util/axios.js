@@ -23,6 +23,7 @@ axios.interceptors.response.use(async function (response) {
 
   // 没有token或token已过期时,跳到登录页面
   if (response.data?.status && response.data.status === 401) {
+    console.log('@@@401')
     localStorage.removeItem('token')
     localStorage.removeItem('tokenExp')
     localStorage.removeItem('apiRecord')

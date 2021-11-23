@@ -114,7 +114,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.overView::v-deep {
+::v-deep(.overView) {
   width: 100%;
   padding: 12px;
 

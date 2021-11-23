@@ -208,6 +208,7 @@ router.beforeEach((to, from, next) => {
     if (!token) {
       message.error('@routerCatch: token无效')
       deleteTokenStorage()
+      console.log('@@@router-next(login)')
       next('/login')
     } else {
       store.commit('routerBeforeEachTo', to)

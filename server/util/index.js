@@ -1,12 +1,8 @@
 const fs = require('fs')
-const request = require('request')
-const querystring = require('querystring')
 const { loggerRouter } = require('../util/log4js')
-const path = require('path')
 const config = require('../config/config')
 const API = require('../config/api')
 const jwt = require('./jwt')
-const filePath = path.resolve(__dirname, __filename)
 
 // 检查文件是否存在, 存在返回true
 exports.fileExist = filePath => {
@@ -29,23 +25,6 @@ exports.fileExist = filePath => {
       } else {
         resolve(false)
       }
-    })
-  })
-}
-
-// 传入 ip地址, 返回城市等地理位置信息
-exports.getCity = ip => {
-  return new Promise(resolve => {
-    const queryData = querystring.stringify({
-      ip,
-      key: config.juHeOpt.key // 申请的接口请求key
-    })
-    const queryUrl = config.juHeOpt.url + queryData
-    request(queryUrl, (error, response, body) => {
-      resolve({
-        error: error ? this.errorHandle(error, filePath, 'getCity') : null,
-        result: JSON.parse(body) // 插入新数据时返回_id
-      })
     })
   })
 }

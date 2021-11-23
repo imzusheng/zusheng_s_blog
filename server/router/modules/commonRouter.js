@@ -1,10 +1,10 @@
 const router = require('@koa/router')()
-const util = require('../../util')
 const config = require('../../config/config')
 const API = require('../../config/api')
 const { GetRouterPath } = require('../../util')
 const getRouterPath = new GetRouterPath('API_COMMON')
 const jwt = require('../../util/jwt')
+const axios = require('axios')
 
 /**
  * @param ctx ctx
@@ -174,6 +174,7 @@ router.get(getRouterPath.r('GET_SEARCH'), async ctx => {
 router.get(getRouterPath.r('GET_USER_ORIGIN'), async (ctx) => {
   let IPAddress = ''
   let result = null
+  let error = null
   if (ctx.request.header.origin || ctx.request.header['x-real-ip']) {
     IPAddress =
       ctx.request.header['x-real-ip'] ||
@@ -183,10 +184,16 @@ router.get(getRouterPath.r('GET_USER_ORIGIN'), async (ctx) => {
       )
   }
   if (!(/localhost|127.0.0.1/.test(IPAddress))) {
-    result = await util.getCity(IPAddress)
+    const { data } = await axios({
+      url: 'https://zusheng.club/api/userOrigin',
+      method: 'get',
+      params: IPAddress
+    })
+    result = data.result
+    error = data.error
   }
   ctx.body = {
-    error: null,
+    error,
     result: {
       IPAddress: IPAddress,
       position: result ? result.result : null
