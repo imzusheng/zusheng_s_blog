@@ -82,11 +82,9 @@ router.get('/reset', async ctx => {
  * @apiSampleRequest off
  */
 router.get('/config', async ctx => {
-  const verifyResult = await jwt.tokenVerify(ctx)
   ctx.body = {
     error: null,
-    result: API,
-    status: verifyResult ? 200 : 401
+    result: API
   }
 })
 
