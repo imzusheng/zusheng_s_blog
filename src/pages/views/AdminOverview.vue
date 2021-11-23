@@ -1,5 +1,5 @@
 <template>
-  <div class="overView">
+  <div id="overView">
     <!--    -->
     <a-row :gutter="24">
       <a-col :xs="24" :sm="16" :md="16" :lg="16" :xl="6">
@@ -113,18 +113,5 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-::v-deep(.overView) {
-  width: 100%;
-  padding: 12px;
-
-  > .ant-row {
-    display: flex;
-    margin: 0 !important;
-
-    > .ant-col {
-      padding: 12px !important;
-    }
-  }
-}
+<style lang="less">
 </style>
