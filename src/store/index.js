@@ -109,8 +109,8 @@ const store = createStore({
     },
     // 保存登录历史记录
     recordLoginRecords (state, payLoad) {
-      if (payLoad && payLoad.length > 0) {
-        state.admin.LoginRecords = payLoad.map(item => item.LoginRecords).reverse()
+      if (payLoad && payLoad?.length > 0) {
+        if (payLoad[0].LoginRecords) state.admin.LoginRecords = payLoad.map(item => item.LoginRecords).reverse()
       }
     },
     // 保存HTMLElement

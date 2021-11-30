@@ -208,7 +208,7 @@ export default {
           <div style="padding: 12px; margin-bottom: -24px">
             <a-timeline reverse={true}>
               {
-                store.state.admin.LoginRecords ? store.state.admin.LoginRecords.map(item => {
+                store.state.admin.LoginRecords?.length > 0 ? store.state.admin.LoginRecords.map(item => {
                   return <a-timeline-item>
                     <span style="color: #777">
                       {formatDate(item.time)}
@@ -218,11 +218,11 @@ export default {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     位置: {
                     item.position
-                      ? `${item.position.result.Province}
-                    ${item.position.result?.Province ? '-' : ''}
-                    ${item.position.result.City}
-                    ${item.position.result?.Country ? '-' : ''}
-                    ${item.position.result.Country}`
+                      ? `${item.position.Province}
+                    ${item.position?.Province ? '-' : ''}
+                    ${item.position.City}
+                    ${item.position?.Country ? '-' : ''}
+                    ${item.position.Country}`
                       : '无法获取'
                   }
                   </a-timeline-item>
@@ -247,7 +247,8 @@ export default {
                 <a-input size="large" v-model:value={newUid.value} tabIndex="2" placeholder="新用户名" autocomplete="off"/>
               </a-form-item>
               <a-form-item>
-                <a-input-password size="large" v-model:value={newPwd.value} tabIndex="2" placeholder="新密码" autocomplete="off"/>
+                <a-input-password size="large" v-model:value={newPwd.value} tabIndex="2" placeholder="新密码"
+                                  autocomplete="off"/>
               </a-form-item>
             </a-form>
             <p style="padding: 0 8px; font-weight: 400; color: #777"><span style="color: red">*</span>密码不设校验，请好自为之</p>
@@ -479,150 +480,4 @@ export default {
 </script>
 
 <style lang="less">
-@fontColor: rgba(0, 0, 0, .65);
-
-#admin-setting {
-  padding: 12px;
-
-  > .ant-row {
-    margin: 0 !important;
-    padding: 0 !important;
-
-    > .ant-col {
-      margin: 12px 0 12px;
-
-      .ant-anchor-wrapper {
-        .light-box-shadow();
-        margin: 0;
-        padding: 12px;
-
-        .ant-anchor-link {
-          line-height: 1.4;
-          padding: 16px !important;
-
-          .ant-anchor-link-title {
-            font-size: 15px !important;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            color: @fontColor;
-
-            svg {
-              margin-right: 8px;
-            }
-          }
-        }
-      }
-
-      .ant-card {
-        margin-bottom: 24px;
-        .light-box-shadow();
-        border-radius: 16px;
-
-        .ant-card-head-title {
-          font-size: 19px;
-          font-weight: 600;
-          color: rgba(0, 0, 0, .7);
-          padding: 9px 0 3px;
-        }
-
-        h4[class="setting-card-title"] {
-          font-weight: 600;
-          color: @fontColor;
-          text-align: center;
-          margin: 6px 0 6px;
-        }
-
-        .ant-card-head {
-          //border: none;
-        }
-
-        .ant-card-body {
-          padding: 12px;
-
-          .ant-form {
-            > .ant-row {
-              margin: 0 0 12px !important;
-
-              > .ant-col {
-                padding: 0 6px 6px !important;
-                margin: 0;
-
-                > .ant-form-item {
-                  margin-bottom: 6px !important;
-                }
-              }
-            }
-
-            .ant-input-password {
-              background: transparent !important;
-              border-radius: 6px !important;
-              margin-top: 12px;
-
-              input {
-                border: none !important;
-                background: transparent !important;
-                border-radius: 0 !important;
-              }
-
-              svg {
-                color: @color-dark-fontColor;
-              }
-            }
-
-            .ant-input {
-              border-radius: 6px;
-            }
-
-            .ant-form-item-label {
-              margin: 0;
-              padding: 0;
-              font-size: 12px;
-
-              label {
-                font-size: 12px;
-                //font-weight: 600;
-                margin: 4px 0;
-                color: @fontColor;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .ant-anchor-wrapper {
-    position: sticky;
-    top: 24px;
-  }
-
-  @media @max768 {
-    & {
-      padding: 0;
-
-      .ant-card-head-title {
-        font-size: 17px !important;
-      }
-
-      > .ant-row {
-        > .ant-col {
-          padding: 0 !important;
-          margin: 0 !important;
-        }
-      }
-
-      .ant-anchor-wrapper {
-        position: relative;
-        border-radius: 0 !important;
-        margin: 0 0 24px !important;
-      }
-
-      .ant-card {
-        border-radius: 0 !important;
-        border: none !important;
-      }
-    }
-  }
-}
 </style>

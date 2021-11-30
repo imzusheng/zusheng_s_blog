@@ -1,0 +1,144 @@
+#admin-setting {
+  padding: 12px;
+
+  > .ant-row {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    > .ant-col {
+      margin: 12px 0 12px;
+
+      .ant-anchor-wrapper {
+        .light-box-shadow();
+        margin: 0;
+        padding: 12px;
+
+        .ant-anchor-link {
+          line-height: 1.4;
+          padding: 16px !important;
+
+          .ant-anchor-link-title {
+            font-size: 15px !important;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            color: @font-color-grey65;
+
+            svg {
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+
+      .ant-card {
+        margin-bottom: 24px;
+        .light-box-shadow();
+        border-radius: 16px;
+
+        .ant-card-head-title {
+          font-size: 19px;
+          font-weight: 600;
+          color: rgba(0, 0, 0, .7);
+          padding: 9px 0 3px;
+        }
+
+        h4[class="setting-card-title"] {
+          font-weight: 600;
+          color: @font-color-grey65;
+          text-align: center;
+          margin: 6px 0 6px;
+        }
+
+        .ant-card-head {
+          //border: none;
+        }
+
+        .ant-card-body {
+          padding: 12px;
+
+          .ant-form {
+            > .ant-row {
+              margin: 0 0 12px !important;
+
+              > .ant-col {
+                padding: 0 6px 6px !important;
+                margin: 0;
+
+                > .ant-form-item {
+                  margin-bottom: 6px !important;
+                }
+              }
+            }
+
+            .ant-input-password {
+              background: transparent !important;
+              border-radius: 6px !important;
+              margin-top: 12px;
+
+              input {
+                border: none !important;
+                background: transparent !important;
+                border-radius: 0 !important;
+              }
+
+              svg {
+                color: @color-dark-fontColor;
+              }
+            }
+
+            .ant-input {
+              border-radius: 6px;
+            }
+
+            .ant-form-item-label {
+              margin: 0;
+              padding: 0;
+              font-size: 12px;
+
+              label {
+                font-size: 12px;
+                //font-weight: 600;
+                margin: 4px 0;
+                color: @font-color-grey65;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .ant-anchor-wrapper {
+    position: sticky;
+    top: 24px;
+  }
+
+  @media @max768 {
+    & {
+      padding: 0;
+
+      .ant-card-head-title {
+        font-size: 17px !important;
+      }
+
+      > .ant-row {
+        > .ant-col {
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+      }
+
+      .ant-anchor-wrapper {
+        position: relative;
+        border-radius: 0 !important;
+        margin: 0 0 24px !important;
+      }
+
+      .ant-card {
+        border-radius: 0 !important;
+        border: none !important;
+      }
+    }
+  }
+}

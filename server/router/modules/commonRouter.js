@@ -184,8 +184,11 @@ router.get(getRouterPath.r('GET_USER_ORIGIN'), async (ctx) => {
   if (!(/localhost|127.0.0.1/.test(IPAddress))) {
     const { data } = await axios({
       url: 'https://zusheng.club/api/userOrigin',
+      // url: 'http://localhost:3900/api/userOrigin',
       method: 'get',
-      params: IPAddress
+      params: {
+        IPAddress: IPAddress
+      }
     })
     result = data.result
     error = data.error
