@@ -8,7 +8,7 @@ import hljs from 'highlight.js'
 // hljs.registerLanguage('shell', require('highlight.js/lib/languages/shell'))
 // hljs.registerLanguage('bash', require('highlight.js/lib/languages/bash'))
 // hljs.registerLanguage('html', require('highlight.js/lib/languages/xml'))
-
+// TODO markdown中左括号用&lt右括号;&gt;替换，不然会被转换成html
 const store = exposeStore()
 
 export default {

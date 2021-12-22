@@ -132,9 +132,12 @@
 
           table {
             border: 1px solid #cccccc;
+            table-layout: fixed;
+            width: 100%;
 
             th, td {
               padding: 6px 12px;
+              word-break: break-all;
 
               &:not(:last-of-type) {
                 border-right: 1px solid #cccccc;
