@@ -45,19 +45,112 @@
             margin: 24px 0 0
           }
 
+          // 文章代码块样式
           pre {
             overflow: hidden;
-            border-radius: 4px;
+            border-radius: 8px;
             margin: 10px;
             box-shadow: 1px 3px 9px rgba(0, 0, 0, .1),
               -1px -3px 9px #ffffff;
             position: relative;
 
+            // 动态添加的顶部栏， 在hljs插件中
+            .code-top-bar {
+              .user-select-not();
+              // 顶栏高度
+              --top-bar-height: 36px;
+              --point-size: 13px;
+              height: var(--top-bar-height);
+              width: 100%;
+              position: absolute;
+              z-index: 4;
+              top: 0;
+              left: 0;
+              display: flex;
+              justify-content: space-between;
+              background: rgba(0, 0, 0, .15);
+
+              div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+
+                &:not(:first-child) {
+                  padding: 0 10px;
+                }
+
+                &:last-child {
+                  color: rgba(253, 188, 64, 1);
+                  font-size: 13px;
+                }
+
+                &:nth-of-type(2) {
+                  font-weight: bold;
+                  color: @color-dark-fontColor;
+                }
+
+                &:first-child {
+                  ul {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0;
+                    margin: 0;
+
+                    li {
+                      height: var(--point-size);
+                      width: var(--point-size);
+                      margin: calc((var(--top-bar-height) - var(--point-size)) / 2) 0 calc((var(--top-bar-height) - var(--point-size)) / 2) 6px;
+                      border-radius: 50%;
+                      list-style: none;
+
+                      &:nth-of-type(1) {
+                        background: rgba(252, 98, 93, 1);
+                      }
+
+                      &:nth-of-type(2) {
+                        background: rgba(253, 188, 64, 1);
+                      }
+
+                      &:nth-of-type(3) {
+                        background: rgba(53, 205, 75, 1);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
             code {
               font-size: 12px;
-              padding: 20px;
+              padding: 56px 20px 20px;
               line-height: 1.5;
               max-height: 300px;
+            }
+          }
+
+          table {
+            border: 1px solid #cccccc;
+
+            th, td {
+              padding: 6px 12px;
+
+              &:not(:last-of-type) {
+                border-right: 1px solid #cccccc;
+              }
+            }
+
+            thead {
+              tr {
+                border-bottom: 1px solid #cccccc;
+              }
+            }
+
+            tbody {
+              tr:not(:last-of-type) {
+                border-bottom: 1px solid #cccccc;
+              }
             }
           }
 
@@ -84,6 +177,7 @@
               left: 50%;
               bottom: 12px;
               font-size: 12px;
+              cursor: pointer;
               font-family: 'Microsoft Yahei', 'Microsoft Sans Serif', sans-serif, SF Pro Display, Helvetica Neue, Helvetica, Arial, sans-serif;
               transform: translate(-50%, 0);
             }
@@ -133,7 +227,8 @@
 
           img {
             max-height: 80vh;
-            width: 100%;
+            width: auto;
+            max-width: 100%;
             margin: 10px 0;
             border-radius: 4px;
             box-shadow: 1px 3px 9px #999,

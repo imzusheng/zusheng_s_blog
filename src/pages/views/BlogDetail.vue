@@ -9,7 +9,9 @@
         <h1>{{ article.title }}</h1>
         <div class="blog-detail-time">{{
             formatDate(article.operate?.releaseTime)
-          }}&nbsp;&nbsp;&nbsp;&nbsp;阅读&nbsp;{{ article?.operate?.fire }}
+          }}&nbsp;&nbsp;&nbsp;&nbsp;阅读&nbsp;{{
+            article?.operate?.fire
+          }}
         </div>
         <div class="blog-detail-poster">
           <img v-if="posterUrl" :src="posterUrl" style="max-width: 100%; padding: 0; border-radius: 6px" alt="poster"/>
@@ -47,9 +49,12 @@ export default {
 
     onMounted(() => {
       loading.value = true
+      // 获取文章详情数据
       store.dispatch('getBlogDetail', { _id: route.query._id }).then(result => {
+        // 增加文章热度
         store.dispatch('addBlogHot', { _id: route.query._id })
         article.value = result
+        // 替换封面url
         posterUrl.value = result.poster ? `${store.state.api.API_ROOT.BASE_URL}/assets?filename=${result.poster}` : null
         mdJudge(result)
       })
@@ -58,8 +63,10 @@ export default {
     // 判断是否需要引入 markdown
     function mdJudge (data) {
       if (data.markdown.md && data.markdown.filename) {
+        // 获取 markdown 文件
         store.dispatch('getGlobalAssets', { filename: data.markdown.filename })
              .then(async ({ data: result }) => {
+               // markdownRender -> string转为html
                content.value = result ? markdownRender(result) : data.content
                loading.value = false
                await nextTick()

@@ -27,13 +27,12 @@ const md = require('markdown-it')({
     if (lang) {
       return `<pre><code class="${lang}">${str}</code></pre>`
     } else {
-      return `<pre><code class="javascript">${str}</code></pre>`
+      return `<pre><code class="code">${str}</code></pre>`
     }
   }
+}).use(attrs, {
+  allowedAttributes: ['id', 'class', /^regex.*$/]
 })
-  .use(attrs, {
-    allowedAttributes: ['id', 'class', /^regex.*$/]
-  })
 
 /**
  * 渲染 markdown 文档为 html

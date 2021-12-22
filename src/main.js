@@ -13,9 +13,8 @@ import '@/less/style/index.less'
 // component
 // import defaultLayout from '@/layouts/default'
 // import adminLayout from '@/layouts/admin'
-
 // ant-design-vue 按需引入
-import { Breadcrumb, Anchor, Avatar, Button, Card, Col, Comment, Drawer, Dropdown, Empty, Form, Image, Input, Layout, List, Menu, message, Modal, PageHeader, Result, Row, Select, Skeleton, Statistic, Steps, Switch, Table, Tabs, Tag, Tooltip, Upload, Popconfirm, Timeline  } from 'ant-design-vue'
+import { Anchor, Avatar, Breadcrumb, Button, Card, Col, Comment, Drawer, Dropdown, Empty, Form, Image, Input, Layout, List, Menu, message, Modal, PageHeader, Popconfirm, Result, Row, Select, Skeleton, Statistic, Steps, Switch, Table, Tabs, Tag, Timeline, Tooltip, Upload } from 'ant-design-vue'
 
 message.config({
   duration: 3,

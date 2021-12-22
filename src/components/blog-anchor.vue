@@ -1,3 +1,8 @@
+<!--
+  这是文章目录组件
+  监听store.state.g.title
+-->
+
 <template>
   <div class="blog-detail-anchor" v-show="store.state.g.menuConfig.anchor && anchorCollection.arr.length > 0">
     <a-anchor :affix="false">

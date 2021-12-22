@@ -113,7 +113,7 @@ const store = createStore({
         if (payLoad[0].LoginRecords) state.admin.LoginRecords = payLoad.map(item => item.LoginRecords).reverse()
       }
     },
-    // 保存HTMLElement
+    // 保存HTMLElement, state.g.blocks 和 state.g.title
     saveElement (state, elementCollections) {
       elementCollections.forEach(item => {
         state.g[item.type] = item.el
