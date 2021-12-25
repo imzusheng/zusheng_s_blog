@@ -28,7 +28,7 @@ export default {
             evt.target.classList.add('code-show')
           })
         }
-        // 添加代码顶部的mac窗口装饰等工具栏
+        // 添加代码顶部的mac窗口装饰等工具栏, 插入到父元素block.parentElement中，且插入位置是block前面
         block.parentElement.insertBefore(createTopBar(block.classList[0]), block)
         // 添加当前主题的类名, store中定义, 用户设置菜单中更改
         block.classList.add(`${store.state.g.menuConfig.codeTheme}`)

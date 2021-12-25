@@ -1,3 +1,7 @@
+<!--
+  博客默认顶部菜单栏
+-->
+
 <template>
   <div class="blog-header user-select-not">
     <div>
