@@ -13,8 +13,37 @@
     @close="store.state.g.menuActive = false"
   >
     <template #title>
-      选项
+      更多
     </template>
+    <h3 style="text-align: center" data-title>
+      <span>菜单</span>
+    </h3>
+    <ul @click="store.state.g.menuActive = false">
+      <li data-index="BlogHome" data-selected="true">
+        <router-link :to="{name: 'BlogHome'}">
+          <span data-title><HomeOutlined/>&nbsp;主页</span>
+        </router-link>
+      </li>
+      <li data-index="BlogWorks">
+        <router-link :to="{name: 'BlogWorks'}">
+          <span data-title><TrophyOutlined/>&nbsp;作品集</span>
+        </router-link>
+      </li>
+      <li data-index="BlogSource">
+        <router-link :to="{name: 'BlogSource'}">
+          <span data-title><UsbOutlined/>&nbsp;网站源码</span>
+        </router-link>
+      </li>
+      <li data-index="me">
+        <a href="https://zusheng.club" target="_blank">
+          <span data-title><UserOutlined/>&nbsp;关于</span>
+        </a>
+      </li>
+    </ul>
+    <br>
+    <h3 style="text-align: center" data-title>
+      <span>设置</span>
+    </h3>
     <ul>
       <li>
         <span data-title>
@@ -52,14 +81,18 @@
 <script>
 import { useStore } from 'vuex'
 import { onMounted, watchEffect } from 'vue'
-import { BgColorsOutlined, BorderlessTableOutlined, OrderedListOutlined, UpSquareOutlined } from '@ant-design/icons-vue'
+import { BgColorsOutlined, BorderlessTableOutlined, HomeOutlined, OrderedListOutlined, TrophyOutlined, UpSquareOutlined, UsbOutlined, UserOutlined } from '@ant-design/icons-vue'
 
 export default {
   components: {
     BgColorsOutlined,
     OrderedListOutlined,
     UpSquareOutlined,
-    BorderlessTableOutlined
+    BorderlessTableOutlined,
+    HomeOutlined,
+    TrophyOutlined,
+    UsbOutlined,
+    UserOutlined
   },
   setup () {
     const store = useStore()

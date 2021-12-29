@@ -67,6 +67,31 @@
   .ant-drawer-wrapper-body {
     //padding: 64px 0 0;
 
+    h3[data-title] {
+      color: @font-color-grey15;
+      position: relative;
+      margin-bottom: 12px;
+
+      span {
+        background: #fff;
+        position: relative;
+        z-index: 2;
+        padding: 0 6px;
+      }
+
+      &:after {
+        content: "";
+        height: 1px;
+        width: 50%;
+        background: @font-color-grey15;
+        position: absolute;
+        top: 50%;
+        left: 25%;
+        transform: scaleY(.5);
+        z-index: 1;
+      }
+    }
+
     ul {
       li {
         display: flex;
@@ -77,6 +102,7 @@
         span[data-title] {
           font-weight: 600;
           margin-right: 16px;
+          color: @font-color-grey65;
         }
       }
     }

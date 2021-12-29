@@ -514,6 +514,35 @@ router.put(getRouterPath.r('PUT_UPDATE_PWD'), async ctx => {
   }
 })
 
+/**
+ * @api {post} /api/addWorks addWorks - 添加作品集
+ * @apiVersion 1.0.0
+ * @apiName 添加作品集
+ * @apiHeader {String} token 用户令牌
+ *
+ * @apiParam (必须) {String} describeTitle          标题
+ * @apiParam (必须) {String} describeContent        内容
+ * @apiParam (必须) {String} poster                 封面
+ * @apiParam (必须) {String} describeTag            标签
+ * @apiParam (必须) {String} describeDate           发布时间
+ * @apiParam (必须) {String} src                    源链接
+ * @apiParam (必须) {String} category               分类
+ *
+ * @apiGroup adminRouter
+ * @apiSampleRequest off
+ */
+router.post(getRouterPath.r('POST_ADD_WORKS'), async ctx => {
+  const data = ctx.request.body
+  const {
+          result,
+          error
+        } = await config.mongoDB.insertOneData('works', data, ctx)
+  ctx.body = {
+    result,
+    error
+  }
+})
+
 // 初始化数据库
 router.get(getRouterPath.r('SET_WELCOME'), async ctx => {
   const { error: err1 } = await config.mongoDB.resetDataBase(ctx)

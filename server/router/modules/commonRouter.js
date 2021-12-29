@@ -317,6 +317,47 @@ router.put(getRouterPath.r('PUT_BROWSE_STEP'), async (ctx) => {
   }
 })
 
+/**
+ * @api {get} /api/getWorks getWorks - 获取作品集
+ * @apiVersion 1.0.0
+ * @apiName 获取作品集
+ * @apiHeader {String} token 用户令牌
+ *
+ * @apiGroup commonRouter
+ * @apiSampleRequest off
+ */
+router.get(getRouterPath.r('GET_WORKS'), async ctx => {
+  const queryGroup = {
+    $group: {
+      // 根据category字段分组
+      _id: '$category',
+      // $$ROOT表示把所有属性都push到data中
+      data: { $push: '$$ROOT' }
+    }
+  }
+
+  const queryProject = {
+    $project: {
+      _id: 0,
+      data: 1,
+      // _id改名为category
+      category: '$_id'
+    }
+  }
+
+  const {
+          result,
+          error
+        } = await config.mongoDB.aggregateData(
+    'works',
+    [queryGroup, queryProject],
+    ctx)
+  ctx.body = {
+    result,
+    error
+  }
+})
+
 // 查询是否需要初始化数据库, true则需要
 router.get(getRouterPath.r('GET_INIT_DATABASE'), async ctx => {
   const { error, result } = await config.mongoDB.queryData('user', {}, null, ctx)

@@ -53,6 +53,22 @@ const routes = [
         component: () => import(/* webpackChunkName: "blog" */ '@/pages/views/BlogHome')
       },
       {
+        path: '/Works',
+        name: 'BlogWorks',
+        meta: {
+          keepalive: true
+        },
+        component: () => import(/* webpackChunkName: "blog" */ '@/pages/views/BlogWorks')
+      },
+      {
+        path: '/Source',
+        name: 'BlogSource',
+        meta: {
+          keepalive: false
+        },
+        component: () => import(/* webpackChunkName: "blog" */ '@/pages/views/BlogWorks')
+      },
+      {
         path: 'Detail',
         name: 'BlogDetail',
         meta: {
@@ -102,7 +118,7 @@ const routes = [
           query: {
             type: 'add'
           },
-          title: '编辑',
+          title: '发布博客',
           keepalive: false,
           searchBar: false
         },
@@ -175,7 +191,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior (to) {
     const position = { top: 0, left: 0 }
     if (to.name === 'BlogDetail') {
       position.top = 0
@@ -203,17 +219,18 @@ router.beforeEach((to, from, next) => {
       })
     }
     next()
-  } else if (store.state.g.reg.pattern1.test(to.path)) { // 访问管理员界面时拦截
+  } else if (store.state.g.reg.Pro.test(to.path)) { // 访问管理员界面时拦截
     const token = localStorage.getItem('token')
     if (!token) {
       message.error('@routerCatch: token无效')
       deleteTokenStorage()
       next('/login')
     } else {
-      store.commit('routerBeforeEachTo', to)
+      store.commit('routerBeforeEachAdmin', to)
       next()
     }
   } else {
+    store.commit('routerBeforeEachDefault', to)
     next()
   }
 })

@@ -8,6 +8,10 @@ const store = createStore({
   state: {
     api: null,
     g: {
+      // 头部
+      header: {
+        curSelected: '' // 菜单选中项目
+      },
       scrollWidth: getScrollWidth, // 滚动条宽度
       menuConfig: {
         anchor: localStorage.getItem('anchor') !== null ? (localStorage.getItem('anchor') !== 'false') : true, // 开启
@@ -63,7 +67,7 @@ const store = createStore({
         position: null
       },
       reg: {
-        pattern1: new RegExp(/\/Pro/)
+        Pro: new RegExp(/\/Pro/)
       },
       searchActiveKey: '1'
     },
@@ -133,7 +137,7 @@ const store = createStore({
       state.el[el.name] = el.dom
     },
     // 全局前置路由卫士触发
-    routerBeforeEachTo (state, to) {
+    routerBeforeEachAdmin (state, to) {
       state.admin.menu.curSelectedKeys = [to.meta.title] // 记录当前选中的菜单
       const tempArr = []
       to.matched.forEach(item => {
@@ -143,6 +147,10 @@ const store = createStore({
         })
       })
       state.admin.header.routes = tempArr
+    },
+    // 全局前置路由卫士触发
+    routerBeforeEachDefault (state, to) {
+      state.g.header.curSelected = to.name
     },
     // 记录用户IP
     recordIP (state, data) {
@@ -392,6 +400,18 @@ const store = createStore({
       apiService.get(api.API_ADMIN.SET_WELCOME).then(({ error }) => {
         error ? message.error('出现错误') : message.success('格式化成功')
       })
+    },
+    // 获取作品集
+    getWorks ({ state: { api } }) {
+      return new Promise(resolve => apiService.get(api.API_COMMON.GET_WORKS).then(result => resolve(result)))
+    },
+    // 添加新作品集
+    addNewWorks ({ state: { api } }, payLoad) {
+      return new Promise(resolve =>
+        apiService.post(api.API_ADMIN.POST_ADD_WORKS, payLoad)
+                  .then(result => resolve(result))
+                  .catch(() => resolve(null))
+      )
     }
   },
   modules: {}

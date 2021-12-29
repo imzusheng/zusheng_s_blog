@@ -1,5 +1,6 @@
 <template>
-  <h1>AdminWorks</h1>
+  <div id="admin-works">
+  </div>
 </template>
 
 <script>
@@ -9,5 +10,4 @@ export default {
 </script>
 
 <style lang="less">
-
 </style>

@@ -54,7 +54,13 @@ const API_ADMIN = {
   /** 获取登录历史位置 */
   GET_LOGIN_RECORDS: '/loginRecords',
   /** 修改密码 */
-  PUT_UPDATE_PWD: '/updatePwd'
+  PUT_UPDATE_PWD: '/updatePwd',
+  /** 发布作品集 */
+  POST_ADD_WORKS: '/addWorks',
+  /** 修改作品集 */
+  PUT_MODIFY_WORKS: '/modifyWorks',
+  /** 删除作品集 */
+  DELETE_WORKS: '/deleteWorks'
 }
 
 const API_COMMON = {
@@ -68,6 +74,8 @@ const API_COMMON = {
   PUT_BROWSE_STEP: '/browseStep',
   /** 登录 */
   POST_LOGIN: '/login',
+  /** 获取作品集 */
+  GET_WORKS: '/getWorks',
   /** 查询是否需要初始化数据库 */
   GET_INIT_DATABASE: '/initDatabase'
 }

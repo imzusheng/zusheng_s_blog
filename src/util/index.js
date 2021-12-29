@@ -118,6 +118,7 @@ export const toTop = function () {
 
 // 内容裁剪 替换汉字为两个字符串
 export const textClip = (context, num) => {
+  if (!context) return ''
   return context.replace(/[\u0391-\uFFE5]/g, 'aa').length > num ? context.slice(0, num) + '...' : context
 }
 
