@@ -45,7 +45,7 @@ export default {
   border-radius: 50%;
   position: fixed;
   bottom: 5vh;
-  right: 3vw;
+  right: .5vw;
   text-align: center;
   cursor: pointer;
   opacity: 0;
