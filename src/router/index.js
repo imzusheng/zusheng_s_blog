@@ -64,9 +64,9 @@ const routes = [
         path: '/Source',
         name: 'BlogSource',
         meta: {
-          keepalive: false
+          keepalive: true
         },
-        component: () => import(/* webpackChunkName: "blog" */ '@/pages/views/BlogWorks')
+        component: () => import(/* webpackChunkName: "blog" */ '@/pages/views/BlogSource')
       },
       {
         path: 'Detail',

@@ -314,3 +314,26 @@ export const deleteTokenStorage = () => {
   localStorage.removeItem('uid')
   localStorage.removeItem('pwd')
 }
+
+// 加载百度地图
+export const LoadBaiduMapScript = () => {
+  window.BMap = undefined
+  const AK = 'DLWqQ24VEBSyrWHOEKZ1Giy2CeROkhR3'
+  const BMapURL = `https://api.map.baidu.com/api?v=3.0&ak=${AK}&s=1&callback=onBMapCallback`
+  return new Promise(resolve => {
+    // 如果已加载直接返回
+    if (typeof BMap !== 'undefined') {
+      resolve(window.BMap)
+    }
+    // 百度地图异步加载回调处理
+    window.onBMapCallback = function () {
+      console.log('百度地图脚本初始化成功...')
+      resolve(window.BMap)
+    }
+    // 插入script脚本
+    const scriptNode = document.createElement('script')
+    scriptNode.setAttribute('type', 'text/javascript')
+    scriptNode.setAttribute('src', BMapURL)
+    document.body.appendChild(scriptNode)
+  })
+}
