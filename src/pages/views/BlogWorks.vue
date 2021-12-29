@@ -22,7 +22,15 @@
               :key="key">
 
             <figure>
-              <img :src="work.poster" alt="poster">
+              <a-skeleton
+                :class="'photo-skeleton'"
+                :paragraph="{rows: 3}"
+                :title="false" active
+                v-if="!posterLoaded.includes('c4d' + key)"/>
+              <img
+                :src="work.poster" alt="poster"
+                :style="{ visibility: posterLoaded.includes('c4d' + key) ? 'visible': 'hidden'}"
+                @load="posterLoad('c4d',key)">
             </figure>
 
             <!--   作品信息 s   -->
@@ -48,33 +56,60 @@
         <!-- photo 容器 s -->
         <div class="photo-container" v-else-if="item.category === 'Photo'">
           <div class="photo-row" v-for="(photoV, photoK) in new Array(Math.ceil(item.data.length / 3))" :key="photoK">
-            <img
+            <div
               :style="{width: addWidth(
                   item.data[(photoK * 3)]?.width,
                   item.data[(photoK * 3) + 1]?.width,
                   item.data[(photoK * 3) + 2]?.width
                   ,0)}"
-              v-if="item.data[photoK * 3]?.poster"
-              :src="item.data[photoK * 3]?.poster"
-              alt="poster">
-            <img
+              v-if="item.data[photoK * 3]?.poster">
+              <a-skeleton
+                :class="'photo-skeleton'"
+                :paragraph="{rows: 4}"
+                :title="false" active
+                v-if="!posterLoaded.includes('photo' + item.data[(photoK * 3)]?.poster)"/>
+              <img
+                :src="item.data[photoK * 3]?.poster"
+                :style="{ visibility: posterLoaded.includes('photo' + item.data[(photoK * 3)]?.poster) ? 'visible': 'hidden'}"
+                @load="posterLoad('photo',item.data[photoK * 3]?.poster)"
+                alt="poster">
+            </div>
+            <div
               :style="{width: addWidth(
                   item.data[(photoK * 3)]?.width,
                   item.data[(photoK * 3) + 1]?.width,
                   item.data[(photoK * 3) + 2]?.width
                   ,1)}"
-              v-if="item.data[(photoK * 3) + 1]?.poster"
-              :src="item.data[(photoK * 3) + 1]?.poster"
-              alt="poster">
-            <img
+              v-if="item.data[(photoK * 3) + 1]?.poster">
+              <a-skeleton
+                :class="'photo-skeleton'"
+                :paragraph="{rows: 4}"
+                :title="false" active
+                v-if="!posterLoaded.includes('photo' + item.data[(photoK * 3) + 1]?.poster)"/>
+              <img
+                :src="item.data[(photoK * 3) + 1]?.poster"
+                :style="{ visibility: posterLoaded.includes('photo' + item.data[(photoK * 3) + 1]?.poster) ? 'visible': 'hidden'}"
+                @load="posterLoad('photo',item.data[(photoK * 3) + 1]?.poster)"
+                alt="poster">
+            </div>
+            <div
               :style="{width: addWidth(
                   item.data[(photoK * 3)]?.width,
                   item.data[(photoK * 3) + 1]?.width,
                   item.data[(photoK * 3) + 2]?.width
                   ,2)}"
-              v-if="item.data[(photoK * 3) + 2]?.poster"
-              :src="item.data[(photoK * 3) + 2]?.poster"
-              alt="poster">
+              v-if="item.data[(photoK * 3) + 2]?.poster">
+              <a-skeleton
+                :class="'photo-skeleton'"
+                :paragraph="{rows: 4}"
+                :title="false" active
+                v-if="!posterLoaded.includes('photo' + item.data[(photoK * 3) + 2]?.poster)"/>
+              <img
+                :src="item.data[(photoK * 3) + 2]?.poster"
+                :style="{ visibility: posterLoaded.includes('photo' + item.data[(photoK * 3) + 2]?.poster) ? 'visible': 'hidden'}"
+                @load="posterLoad('photo',item.data[(photoK * 3) + 2]?.poster)"
+                alt="poster">
+            </div>
           </div>
         </div>
         <!-- photo 容器 s -->
@@ -120,11 +155,20 @@ export default {
       const ratio = (args[index] / (args[0] + args[1] + args[2]) * 100).toFixed(0)
       return `${ratio}%`
     }
+    // 图片加载完成标记
+    const posterLoaded = reactive([])
+    // 图片加载完成
+    const posterLoad = (type, key) => {
+      posterLoaded.push(type + key)
+    }
+
     return {
       dateConvert,
       toSource,
       textClip,
       addWidth,
+      posterLoad,
+      posterLoaded,
       source
     }
   }

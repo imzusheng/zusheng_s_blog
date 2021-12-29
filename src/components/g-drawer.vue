@@ -80,7 +80,7 @@
 
 <script>
 import { useStore } from 'vuex'
-import { onMounted, watchEffect } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import { BgColorsOutlined, BorderlessTableOutlined, HomeOutlined, OrderedListOutlined, TrophyOutlined, UpSquareOutlined, UsbOutlined, UserOutlined } from '@ant-design/icons-vue'
 
 export default {
@@ -97,44 +97,23 @@ export default {
   setup () {
     const store = useStore()
     const themeList = []
+    const menuPlacement = ref('left')
     store.state.g.menuConfig.codeThemeList.forEach(item => {
       themeList.push(item.value)
     })
+    // 设置-改变主题
     watchEffect(() => {
       localStorage.setItem('theme', String(store.state.g.menuConfig.theme))
     })
+    // 设置-置顶按钮
     watchEffect(() => {
       localStorage.setItem('toTop', String(store.state.g.menuConfig.toTop))
     })
+    // 设置-文章菜单栏
     watchEffect(() => {
       localStorage.setItem('anchor', String(store.state.g.menuConfig.anchor))
     })
-    // onMounted(() => {
-    //   watchEffect(() => {
-    //     const app = document.getElementById('app')
-    //     const style = `calc(100% - ${document.body.offsetWidth - document.getElementById('wrap').offsetWidth}px)`
-    //     if (store.state.g.menuActive) {
-    //       app.style.overflow = 'hidden'
-    //       app.style.width = style
-    //     } else {
-    //       app.style.overflow = 'auto'
-    //       app.style.width = '100%'
-    //     }
-    //   })
-    // })
-    onMounted(() => {
-      watchEffect(() => {
-        const root = document.documentElement
-        const style = `calc(100% - ${store.state.g.scrollWidth()}px)`
-        if (store.state.g.menuActive) {
-          root.style.overflow = 'hidden'
-          root.style.width = style
-        } else {
-          root.style.overflow = 'auto'
-          root.style.width = '100%'
-        }
-      })
-    })
+    // 设置-切换代码主题
     watchEffect(() => {
       localStorage.setItem('codeTheme', store.state.g.menuConfig.codeTheme)
       if (store.state.g.blocks) {
@@ -144,8 +123,23 @@ export default {
         })
       }
     })
+    // 侧边栏打开/关闭时触发
+    onMounted(() => {
+      watchEffect(() => {
+        const root = document.documentElement
+        const style = `calc(100% - ${store.state.g.scrollWidth()}px)`
+        if (store.state.g.menuActive) {
+          root.style.overflowY = 'hidden'
+          root.style.width = style
+        } else {
+          root.style.overflowY = 'auto'
+          root.style.width = '100%'
+        }
+      })
+    })
     return {
-      store
+      store,
+      menuPlacement
     }
   }
 }
