@@ -502,11 +502,11 @@ export class BaiduMap {
       // 绘制
       map.centerAndZoom(point, 16)
       // 开启鼠标滚轮缩放
-      map.enableScrollWheelZoom(true)
+      // map.enableScrollWheelZoom(true)
       // 地图样式
-      map.setMapStyleV2({
-        styleId: 'ebc672b1ba810f859edc9477fd661e78'
-      })
+      // map.setMapStyleV2({
+      //   styleId: 'ebc672b1ba810f859edc9477fd661e78'
+      // })
       // 创建标注
       const marker = new BMap.Marker(point)
       // 将标注添加到地图中
@@ -532,7 +532,7 @@ export class BaiduMap {
             resolve({
               error: false,
               value: {
-                position: `${r.longitude.toFixed(6)}，${r.latitude.toFixed(6)}`,
+                position: `${r.longitude}，${r.longitude}`,
                 r
               }
             })

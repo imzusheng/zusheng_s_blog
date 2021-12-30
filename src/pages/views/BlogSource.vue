@@ -57,7 +57,7 @@ export default {
         value: ''
       },
       geo: {
-        name: 'geo 定位',
+        name: 'Geo 定位',
         value: ''
       },
       bMap: {
@@ -101,94 +101,4 @@ export default {
 </script>
 
 <style lang="less">
-#lab {
-  .lab-title {
-    margin: 24px 0 24px;
-
-    h2 {
-      text-align: center;
-      vertical-align: center;
-      color: @font-color-grey65;
-    }
-  }
-
-  .lab-content {
-    max-width: 1068px;
-    margin: auto;
-
-    .lab-user-info {
-      padding: 0 20px;
-
-      @media @max768 {
-        & {
-          padding: 0 10px;
-
-          .user-info-title {
-            text-align: center;
-          }
-        }
-      }
-
-      .user-info-title {
-        font-size: 16px;
-        color: @font-color-grey45;
-        margin-bottom: 12px;
-
-        span[data-reget] {
-          margin-left: 12px;
-          font-size: 14px;
-          color: @font-color-blue;
-          cursor: pointer;
-        }
-      }
-
-      .user-info-panel {
-        width: 100%;
-        padding: 20px;
-        box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.1), -1px -2px 8px #ffffff;
-        border-radius: 12px;
-        display: flex;
-        justify-content: space-between;
-
-        .info-panel-left {
-          > div {
-            &:not(:last-child) {
-              margin-bottom: 12px;
-            }
-
-            span[data-title] {
-              color: @font-color-grey45;
-            }
-          }
-        }
-
-        .info-panel-right {
-          flex: 1;
-          max-width: 60%;
-          padding-left: 20px;
-
-          #map {
-            height: 100%;
-            width: 100%;
-          }
-        }
-
-        @media @max768 {
-          & {
-            display: block;
-            box-shadow: none;
-            padding: 0;
-            border-radius: 12px;
-
-            .info-panel-right {
-              width: 100%;
-              height: 50vh;
-              padding: 10px 0 0;
-            }
-          }
-        }
-      }
-    }
-  }
-}
 </style>

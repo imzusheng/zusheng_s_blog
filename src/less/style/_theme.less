@@ -675,6 +675,44 @@
     }
   }
 
+  #lab {
+    .lab-title {
+      h2 {
+        color: @color-dark-fontColorTransit;
+      }
+    }
+
+    .lab-content {
+      .user-info-title {
+        color: @color-dark-fontColorTransit !important;
+
+        span[data-reget] {
+          color: @font-color-blue;
+        }
+      }
+
+      .user-info-panel {
+        box-shadow: none !important;
+
+        .info-panel-left {
+          span[data-title] {
+            color: @color-dark-fontColorTransit !important;
+          }
+
+          span[data-content] {
+            color: @color-dark-fontColorAct !important;
+          }
+        }
+
+        .info-panel-right {
+          #map {
+            opacity: .9 !important;
+          }
+        }
+      }
+    }
+  }
+
   @media @max768 {
     & {
       .blog-header {
