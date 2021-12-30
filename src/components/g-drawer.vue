@@ -31,7 +31,7 @@
       </li>
       <li data-index="BlogSource">
         <router-link :to="{name: 'BlogSource'}">
-          <span data-title><UsbOutlined/>&nbsp;网站源码</span>
+          <span data-title><UsbOutlined/>&nbsp;实验室</span>
         </router-link>
       </li>
       <li data-index="me">

@@ -315,25 +315,252 @@ export const deleteTokenStorage = () => {
   localStorage.removeItem('pwd')
 }
 
-// 加载百度地图
-export const LoadBaiduMapScript = () => {
-  window.BMap = undefined
-  const AK = 'DLWqQ24VEBSyrWHOEKZ1Giy2CeROkhR3'
-  const BMapURL = `https://api.map.baidu.com/api?v=3.0&ak=${AK}&s=1&callback=onBMapCallback`
+// 图片测网速
+// window创建一个250kb大小的文件 fsutil file createnew speed.jpeg 256000
+export const getSpeed = () => {
   return new Promise(resolve => {
-    // 如果已加载直接返回
-    if (typeof BMap !== 'undefined') {
-      resolve(window.BMap)
+    const speeds = []
+
+    function makeRangeIterator (start = 0, end = Infinity, step = 1) {
+      let nextIndex = start
+      return {
+        next: () => {
+          return new Promise(resolve => {
+            if (nextIndex < end) {
+              let start = null
+              const imgUrl = 'http://cdn.zusheng.club/images/speed_250kb.jpeg'
+              const xhr = new XMLHttpRequest()
+              xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                  const end = Date.now()
+                  const size = xhr.getResponseHeader('Content-Length') / 1024
+                  const speed = size * 1000 / (end - start)
+                  speeds.push(speed)
+                  resolve({ speed, done: false })
+                } else if (xhr.readyState === 4) {
+                  const speed = navigator?.connection?.downlink || 0
+                  speeds.push(speed)
+                  resolve({ speed, done: true })
+                }
+              }
+              xhr.open('GET', imgUrl, true)
+              start = Date.now()
+              xhr.send()
+              nextIndex += 1
+            } else {
+              resolve({ done: true })
+            }
+          })
+        }
+      }
     }
-    // 百度地图异步加载回调处理
-    window.onBMapCallback = function () {
-      console.log('百度地图脚本初始化成功...')
-      resolve(window.BMap)
+
+    const it = makeRangeIterator(1, 4, 1)
+
+    async function init () {
+      let result = await it.next()
+      while (!result.done) {
+        result = await it.next()
+      }
+      const res = `${speeds.length > 1 ? ((speeds.reduce((a, b) => a + b) / speeds.length) / 1024).toFixed(2) : speeds[0]} M/s`
+      resolve(res)
     }
-    // 插入script脚本
-    const scriptNode = document.createElement('script')
-    scriptNode.setAttribute('type', 'text/javascript')
-    scriptNode.setAttribute('src', BMapURL)
-    document.body.appendChild(scriptNode)
+
+    init().catch()
   })
+}
+
+// 图片测延迟
+export const getDelay = async () => {
+  return new Promise(resolve => {
+    const delayList = []
+
+    function makeRangeIterator (start = 0, end = Infinity, step = 1) {
+      let nextIndex = start
+      return {
+        next: () => {
+          return new Promise(resolve => {
+            if (nextIndex < end) {
+              let startTime = null
+              let endTime = null
+              let delay = null
+              const img = document.createElement('img')
+              img.onerror = () => {
+                endTime = Date.now()
+                delay = endTime - startTime
+                delayList.push(delay)
+                resolve({ delay, done: false })
+              }
+              startTime = Date.now()
+              img.src = `www.baidu.com?t=${Date.now()}`
+              nextIndex += 1
+            } else {
+              resolve({ done: true })
+            }
+          })
+        }
+      }
+    }
+
+    const it = makeRangeIterator(1, 4, 1)
+
+    async function init () {
+      let result = await it.next()
+      while (!result.done) {
+        result = await it.next()
+      }
+      resolve(`${(delayList.reduce((a, b) => a + b) / delayList.length).toFixed(2)} ms`)
+    }
+
+    init().catch()
+  })
+}
+
+// geo获取位置，需要浏览器权限
+export const getGeoPosition = () => {
+  return new Promise(resolve => {
+    const successCb = ({ coords }) => {
+      // longitude 经度, latitude  纬度
+      resolve({
+        error: false,
+        longitude: coords.longitude,
+        latitude: coords.latitude,
+        position: `${coords.longitude.toFixed(6)}，${coords.latitude.toFixed(6)}`
+      })
+    }
+    const errorCb = error => {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          resolve({ error: true, info: '用户拒绝对获取地理位置的请求(User denied the request for Geolocation.)' })
+          console.error('用户拒绝对获取地理位置的请求(User denied the request for Geolocation.)')
+          break
+        case error.POSITION_UNAVAILABLE:
+          resolve({ error: true, info: '位置信息是不可用(Location information is unavailable.)' })
+          console.error('位置信息是不可用(Location information is unavailable.)')
+          break
+        case error.TIMEOUT:
+          resolve({ error: true, info: '用户的请求超时(The request to get user location timed out.)' })
+          console.error('用户的请求超时(The request to get user location timed out.)')
+          break
+        default:
+          resolve({ error: true, info: '未知错误(An unknown error occurred.)' })
+          console.error('未知错误(An unknown error occurred.)')
+          break
+      }
+    }
+    navigator.geolocation.getCurrentPosition(successCb, errorCb, {
+      // 指示浏览器获取高精度的位置
+      enableHighAccuracy: true,
+      // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+      timeout: 5000,
+      // 最长有效期,即位置缓存
+      maximumAge: 3000
+    })
+  })
+}
+
+window.BMap = undefined
+
+// 百度地图类
+export class BaiduMap {
+  /**
+   * 加载百度地图
+   * @return {Promise<BMap>}
+   * @constructor
+   */
+  loadBaiduMap () {
+    const AK = 'DLWqQ24VEBSyrWHOEKZ1Giy2CeROkhR3'
+    const BMapURL = `https://api.map.baidu.com/api?v=3.0&ak=${AK}&s=1&callback=onBMapCallback`
+    return new Promise(resolve => {
+      // 如果已加载直接返回
+      if (typeof window.BMap !== 'undefined') {
+        resolve(window.BMap)
+      } else {
+        // 百度地图异步加载回调处理
+        window.onBMapCallback = function () {
+          console.log('百度地图初始化成功...')
+          resolve(window.BMap)
+        }
+        // 插入script脚本
+        const scriptNode = document.createElement('script')
+        scriptNode.setAttribute('type', 'text/javascript')
+        scriptNode.setAttribute('src', BMapURL)
+        document.body.appendChild(scriptNode)
+      }
+    })
+  }
+
+  /**
+   * 绘制地图
+   */
+  drawMap (elId, longitude, latitude) {
+    this.loadBaiduMap().then(BMap => {
+      // 实例化Map
+      const map = new BMap.Map(elId)
+      // 创建坐标
+      const point = new BMap.Point(longitude, latitude)
+      // 绘制
+      map.centerAndZoom(point, 16)
+      // 开启鼠标滚轮缩放
+      map.enableScrollWheelZoom(true)
+      // 地图样式
+      map.setMapStyleV2({
+        styleId: 'ebc672b1ba810f859edc9477fd661e78'
+      })
+      // 创建标注
+      const marker = new BMap.Marker(point)
+      // 将标注添加到地图中
+      map.addOverlay(marker)
+      // 添加控件
+      map.addControl(new BMap.NavigationControl())
+      map.addControl(new BMap.MapTypeControl())
+      map.addControl(new BMap.GeolocationControl())
+    })
+  }
+
+  /**
+   * 获取IP地址
+   * @return {Promise<{}>}
+   */
+  getCurrentPosition () {
+    return new Promise(resolve => {
+      //
+      this.loadBaiduMap().then(BMap => {
+        const geolocation = new BMap.Geolocation()
+        geolocation.getCurrentPosition(r => {
+          if (geolocation.getStatus() === window.BMAP_STATUS_SUCCESS) {
+            resolve({
+              error: false,
+              value: {
+                position: `${r.longitude.toFixed(6)}，${r.latitude.toFixed(6)}`,
+                r
+              }
+            })
+          } else {
+            resolve({
+              error: true
+            })
+          }
+        })
+      })
+      //
+    })
+  }
+
+  /**
+   * 根据坐标得到地址描述
+   */
+  getLocationCN (longitude, latitude) {
+    return new Promise(resolve => {
+      //
+      if (!longitude || !latitude) resolve('获取失败...')
+      this.loadBaiduMap().then(BMap => {
+        const myGeo = new BMap.Geocoder({ extensions_town: true })
+        myGeo.getLocation(new BMap.Point(longitude, latitude), result => {
+          resolve(result.address)
+        })
+      })
+      //
+    })
+  }
 }

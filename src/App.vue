@@ -18,6 +18,7 @@ import { useRouter } from 'vue-router'
 import { mapActionsHelper } from '@/util'
 import { BgColorsOutlined, SettingOutlined } from '@ant-design/icons-vue'
 
+// 拖动不打开新窗口
 document.documentElement.addEventListener('drop', evt => {
   evt.stopPropagation()
   evt.preventDefault()
