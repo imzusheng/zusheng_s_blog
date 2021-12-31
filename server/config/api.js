@@ -74,8 +74,10 @@ const API_COMMON = {
   PUT_BROWSE_STEP: '/browseStep',
   /** 登录 */
   POST_LOGIN: '/login',
-  /** 获取作品集 */
+  /** 获取作品集(爬虫动态更新) */
   GET_WORKS: '/getWorks',
+  /** 获取作品集(静态) */
+  GET_WORKS_STATIC: '/getWorksStatic',
   /** 查询是否需要初始化数据库 */
   GET_INIT_DATABASE: '/initDatabase'
 }

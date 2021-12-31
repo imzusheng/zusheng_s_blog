@@ -5,6 +5,7 @@ import { message } from 'ant-design-vue'
 import router from '@/router'
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : 'https://blog.zusheng.club/api'
+// axios.defaults.baseURL = 'https://blog.zusheng.club/api'
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 // axios.defaults.headers.token = localStorage.getItem('token') || ''
@@ -35,13 +36,13 @@ axios.interceptors.response.use(async function (response) {
   if (response.config.baseURL === axios.defaults.baseURL) {
     // 只有访问路径前是api时才会拦截, 全局提示错误
     const { data } = response
-    if (data.error) message.error(`@axiosCatch: ${data.error}`)
+    if (data.error) console.error(`@axiosCatch: ${data.error}`)
     return data.result
   } else {
     return response
   }
 }, error => {
-  message.error(`@axiosCatch: ${error}`)
+  console.error(`@axiosCatch: ${error}`)
   return Promise.reject(error)
 })
 

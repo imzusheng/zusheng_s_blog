@@ -564,3 +564,14 @@ export class BaiduMap {
     })
   }
 }
+
+// 数组转对象
+export const arrayToObject = (arr, key) => {
+  if (key) {
+    const obj = {}
+    arr.map(v => { obj[v[key]] = v })
+    return obj
+  } else {
+    return { ...arr }
+  }
+}

@@ -36,8 +36,12 @@ export default {
         name: 'IP 定位',
         value: ''
       },
-      os: {
-        name: '操作系统',
+      speed: {
+        name: '网速',
+        value: ''
+      },
+      delay: {
+        name: '延迟',
         value: ''
       },
       isp: {
@@ -48,12 +52,8 @@ export default {
         name: '浏览器名称',
         value: ''
       },
-      speed: {
-        name: '网速',
-        value: ''
-      },
-      delay: {
-        name: '延迟',
+      os: {
+        name: '操作系统',
         value: ''
       },
       geo: {
@@ -90,7 +90,7 @@ export default {
       baiduMap.drawMap('map', positionRes.value?.r.longitude, positionRes.value?.r.latitude)
     }
 
-    setTimeout(() => getUserInfo(), 2000)
+    setTimeout(() => getUserInfo(), 1000)
 
     return {
       getUserInfo,

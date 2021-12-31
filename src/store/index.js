@@ -405,6 +405,10 @@ const store = createStore({
     getWorks ({ state: { api } }) {
       return new Promise(resolve => apiService.get(api.API_COMMON.GET_WORKS).then(result => resolve(result)))
     },
+    // 获取作品集(静态)
+    getWorksStatic ({ state: { api } }) {
+      return new Promise(resolve => apiService.get(api.API_COMMON.GET_WORKS_STATIC).then(result => resolve(result)))
+    },
     // 添加新作品集
     addNewWorks ({ state: { api } }, payLoad) {
       return new Promise(resolve =>

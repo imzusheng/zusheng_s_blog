@@ -23,6 +23,7 @@
       display: flex;
       flex-wrap: wrap;
 
+      // li
       .works-list-item {
         box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.1), -1px -2px 6px #ffffff;
         width: calc(20% - 20px);
@@ -148,64 +149,69 @@
   @media @max768 {
     ul[class="works-item-list"] {
       li[class="works-list-item"] {
+        background: rgba(249, 250, 252);
         width: calc(33.33% - 20px) !important;
       }
     }
   }
 
   @media @max576 {
-    .works-item-header {
-      .item-header-title {
-        padding: 0 10px !important;
-      }
-    }
-
-    ul[class="works-item-list"] {
-      padding: 0 !important;
-
-      li[class="works-list-item"] {
-        width: calc(100% - 20px) !important;
-        box-shadow: none !important;
-
-        > figure {
-          border-radius: 4px;
-          margin: 0 0 10px;
-          height: 200px !important;
-
-          img {
-            width: 100%;
-          }
-        }
-
-        > .list-item-describe {
-          flex: 1;
-          padding: 0 !important;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-
-          .item-describe-title {
-            font-size: 18px !important;
-            font-weight: bold;
-          }
-
-          .item-describe-content {
-            margin-bottom: 5px !important;
-          }
+    & {
+      .works-item-header {
+        .item-header-title {
+          padding: 0 16px !important;
         }
       }
-    }
 
-    .photo-container {
+      ul[class="works-item-list"] {
+        padding: 0 !important;
 
-      .photo-row {
-        padding: 0 10px 0 !important;
+        li[class="works-list-item"] {
+          width: calc(100% - 20px) !important;
+          margin: 0 16px 16px !important;
+          border-radius: 12px !important;
+          box-shadow: none !important;
 
-        div {
-          margin-bottom: 2px !important;
+          > figure {
+            border-radius: 4px;
+            margin: 0 0 10px;
+            height: 200px !important;
 
-          &:not(:last-child) {
-            margin-right: 2px !important;
+            img {
+              width: 100%;
+            }
+          }
+
+          > .list-item-describe {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 6px 16px 16px !important;
+
+            .item-describe-title {
+              font-size: 18px !important;
+              font-weight: bold;
+            }
+
+            .item-describe-content {
+              margin-bottom: 5px !important;
+            }
+          }
+        }
+      }
+
+      .photo-container {
+
+        .photo-row {
+          padding: 0 10px 0 !important;
+
+          div {
+            margin-bottom: 2px !important;
+
+            &:not(:last-child) {
+              margin-right: 2px !important;
+            }
           }
         }
       }

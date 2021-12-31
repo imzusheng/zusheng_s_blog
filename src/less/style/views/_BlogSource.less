@@ -18,7 +18,7 @@
 
       @media @max768 {
         & {
-          padding: 0 10px;
+          padding: 0 16px;
 
           .user-info-title {
             text-align: center;
@@ -49,12 +49,16 @@
 
         .info-panel-left {
           > div {
+            //display: flex;
+            //flex-wrap: wrap;
+
             &:not(:last-child) {
-              margin-bottom: 12px;
+              margin-bottom: 8px;
             }
 
             span[data-title] {
               color: @font-color-grey45;
+              margin-bottom: 4px;
             }
           }
         }
@@ -76,7 +80,8 @@
           & {
             display: block;
             box-shadow: none;
-            padding: 0;
+            padding: 16px;
+            background: rgba(249, 250, 252);
             border-radius: 12px;
 
             .info-panel-right {
