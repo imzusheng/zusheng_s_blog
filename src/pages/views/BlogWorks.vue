@@ -38,9 +38,14 @@
                 <div class="item-describe-content">{{ work.describeContent }}</div>
                 <div class="item-describe-tag">
                   <div class="describe-tag-content">
-                    <EyeOutlined v-if="work.hot"/>&nbsp;{{ work.hot }}
-                    <span v-if="work.hot">&nbsp;&nbsp;</span>
-                    <LikeOutlined v-if="work.like"/>&nbsp;{{ work.like }}
+                    <span v-if="item.category === 'CINEMA 4D'">
+                      <EyeOutlined v-if="work.hot"/>&nbsp;{{ work.hot }}
+                      <span v-if="work.hot">&nbsp;&nbsp;</span>
+                      <LikeOutlined v-if="work.like"/>&nbsp;{{ work.like }}
+                    </span>
+                    <span v-else-if="['网页', '浏览器插件'].includes(item.category)">
+                      修改日期
+                    </span>
                   </div>
                   <div class="describe-tag-date">
                   <span v-if="item.category === 'CINEMA 4D'">
@@ -103,10 +108,6 @@ export default {
       store.dispatch('getWorks').then(res => source.push(...res))
       store.dispatch('getWorksStatic').then(res => source.push(...res))
     })
-    // 跳转到源地址
-    const toSource = (src) => {
-      window.open(src, '_blank')
-    }
     // 图片加载完成标记
     const posterLoaded = reactive([])
     // 图片加载完成
@@ -167,7 +168,6 @@ export default {
 
     return {
       dateConvert,
-      toSource,
       textClip,
       posterLoad,
       formatDate,
