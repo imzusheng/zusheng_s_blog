@@ -136,7 +136,9 @@ router.get(getRouterPath.r('GET_ALL_ARTICLES'), async (ctx) => {
   const {
           result,
           error
-        } = await config.mongoDB.queryData('articles', {}, null, ctx)
+        } = await config.mongoDB.queryData('articles', {}, {
+    'operate.releaseTime': -1
+  }, ctx)
   ctx.body = {
     result,
     error
