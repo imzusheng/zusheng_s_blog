@@ -25,13 +25,13 @@
     <div class="door_container">
       <ul class="door_ul">
         <li class="door_li">
-          <a href="https://blog.zusheng.club">
+          <a href="https://blog.zusheng.club/Blog">
             <i class="em em-sun_with_face" aria-role="presentation" aria-label="博客"></i>
             <span>博客</span>
           </a>
         </li>
         <li class="door_li">
-          <a href="https://blog.zusheng.club">
+          <a href="https://blog.zusheng.club/Works">
             <i class="em em-star" aria-role="presentation" aria-label="作品集"></i>
             <span>作品集</span>
           </a>

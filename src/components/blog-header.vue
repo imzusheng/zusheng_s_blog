@@ -33,7 +33,7 @@
         </div>
         <div
           class="moreBtn"
-          style="padding-top: 4px"
+          style="padding-top: 2px"
           @click="store.state.g.menuActive = !store.state.g.menuActive">
           <MoreOutlined/>
         </div>
