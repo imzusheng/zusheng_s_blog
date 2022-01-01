@@ -16,43 +16,44 @@
         <!-- 卡片容器 s -->
         <ul class="works-item-list" v-if="['CINEMA 4D', '网页', '浏览器插件'].includes(item.category)">
           <li class="works-list-item"
-              @click=toSource(work.src)
               v-for="work in item.data"
               :title="`源地址: ${work.src}`"
               :key="work._id">
-            <figure>
-              <a-skeleton
-                :class="'photo-skeleton'"
-                :paragraph="{rows: 3}"
-                :title="false" active
-                v-if="!posterLoaded.includes(work._id)"/>
-              <img
-                :src="work.poster" alt="poster"
-                :style="{ visibility: posterLoaded.includes(work._id) ? 'visible': 'hidden'}"
-                @load="posterLoad(work._id, '')">
-            </figure>
+            <a :href="work.src" target="_blank">
+              <figure>
+                <a-skeleton
+                  :class="'photo-skeleton'"
+                  :paragraph="{rows: 3}"
+                  :title="false" active
+                  v-if="!posterLoaded.includes(work._id)"/>
+                <img
+                  :src="work.poster" alt="poster"
+                  :style="{ visibility: posterLoaded.includes(work._id) ? 'visible': 'hidden'}"
+                  @load="posterLoad(work._id, '')">
+              </figure>
 
-            <!--   作品信息 s   -->
-            <div class="list-item-describe">
-              <div class="item-describe-title">{{ textClip(work.describeTitle, 15) }}</div>
-              <div class="item-describe-content">{{ work.describeContent }}</div>
-              <div class="item-describe-tag">
-                <div class="describe-tag-content">
-                  <EyeOutlined v-if="work.hot"/>&nbsp;{{ work.hot }}
-                  <span v-if="work.hot">&nbsp;&nbsp;</span>
-                  <LikeOutlined v-if="work.like"/>&nbsp;{{ work.like }}
-                </div>
-                <div class="describe-tag-date">
+              <!--   作品信息 s   -->
+              <div class="list-item-describe">
+                <div class="item-describe-title">{{ textClip(work.describeTitle, 15) }}</div>
+                <div class="item-describe-content">{{ work.describeContent }}</div>
+                <div class="item-describe-tag">
+                  <div class="describe-tag-content">
+                    <EyeOutlined v-if="work.hot"/>&nbsp;{{ work.hot }}
+                    <span v-if="work.hot">&nbsp;&nbsp;</span>
+                    <LikeOutlined v-if="work.like"/>&nbsp;{{ work.like }}
+                  </div>
+                  <div class="describe-tag-date">
                   <span v-if="item.category === 'CINEMA 4D'">
                     {{ work.describeDate }}
                   </span>
-                  <span v-else-if="['网页', '浏览器插件'].includes(item.category)">
+                    <span v-else-if="['网页', '浏览器插件'].includes(item.category)">
                     {{ formatDate(parseInt(work.describeDate), 'transform') }}
                   </span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!--   作品信息 e   -->
+              <!--   作品信息 e   -->
+            </a>
           </li>
         </ul>
         <!-- 卡片容器 e -->
