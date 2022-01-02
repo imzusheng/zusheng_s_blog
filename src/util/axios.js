@@ -4,8 +4,10 @@ import { message } from 'ant-design-vue'
 // import { StopOutlined } from '@ant-design/icons-vue'
 import router from '@/router'
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : 'https://blog.zusheng.club/api'
-// axios.defaults.baseURL = 'https://blog.zusheng.club/api'
+const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.zusheng.club'
+const baseApiURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : 'https://blog.zusheng.club/api'
+
+axios.defaults.baseURL = baseApiURL
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 // axios.defaults.headers.token = localStorage.getItem('token') || ''
@@ -88,7 +90,7 @@ export const apiService = {
   },
   getBaseURL (url, params) {
     return axios({
-      baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.zusheng.club',
+      baseURL,
       method: 'get',
       url,
       params
@@ -96,7 +98,7 @@ export const apiService = {
   },
   getAssets (url, params) {
     return axios({
-      baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.zusheng.club',
+      baseURL,
       method: 'get',
       url: url,
       params
