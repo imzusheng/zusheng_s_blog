@@ -5,7 +5,9 @@ import { message } from 'ant-design-vue'
 import router from '@/router'
 
 const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.zusheng.club'
+// const baseURL = 'https://blog.zusheng.club'
 const baseApiURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : 'https://blog.zusheng.club/api'
+// const baseApiURL = 'https://blog.zusheng.club/api'
 
 axios.defaults.baseURL = baseApiURL
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
