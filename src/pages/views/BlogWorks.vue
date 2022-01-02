@@ -71,7 +71,7 @@
                     {{ work.describeDate }}
                   </span>
                     <span v-else>
-                    {{ formatDate(work.describeDate, 'transform') }}
+                    {{ dateConvert(work.describeDate) }}前
                   </span>
                   </div>
                 </div>
