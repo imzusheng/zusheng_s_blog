@@ -143,19 +143,14 @@ export const dateConvert = (date) => {
   const oneHour = 60 * 60 * 1000
   // 一天的毫秒数
   const oneDay = 60 * 60 * 1000 * 24
-  // 一年的毫秒数
-  const oneYear = 60 * 60 * 1000 * 24 * 365
   if (gapTime < oneHour) {
     // 一小时内
     return `${(gapTime / 60 / 1000).toFixed(0)}分钟`
   } else if (gapTime < oneDay) {
     // 一天内
     return `${(gapTime / 3600 / 1000).toFixed(0)}小时`
-  } else if (gapTime < oneYear) {
-    // 一年内
-    return `${(gapTime / 3600 / 1000 / 24).toFixed(0)}天`
   } else {
-    return '很久很久以前'
+    return `${(gapTime / 3600 / 1000 / 24).toFixed(0)}天`
   }
 }
 
