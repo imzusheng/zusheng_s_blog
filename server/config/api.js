@@ -79,7 +79,9 @@ const API_COMMON = {
   /** 获取作品集(静态) */
   GET_WORKS_STATIC: '/getWorksStatic',
   /** 查询是否需要初始化数据库 */
-  GET_INIT_DATABASE: '/initDatabase'
+  GET_INIT_DATABASE: '/initDatabase',
+  /** ECharts 百度指数 */
+  GET_BAIDU_INDEX: '/baiduIndex'
 }
 
 const API_UPLOAD = {

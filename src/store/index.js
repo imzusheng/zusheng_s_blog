@@ -416,6 +416,10 @@ const store = createStore({
                   .then(result => resolve(result))
                   .catch(() => resolve(null))
       )
+    },
+    // 获取ECharts数据
+    getECharts ({ state: { api } }, payLoad) {
+      return new Promise(resolve => apiService.get(api.API_COMMON.GET_BAIDU_INDEX, payLoad).then(result => resolve(result)))
     }
   },
   modules: {}

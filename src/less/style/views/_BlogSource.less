@@ -13,23 +13,15 @@
     max-width: 1068px;
     margin: auto;
 
-    .lab-user-info {
+    .lab-content-section {
       padding: 0 20px;
+      margin: 0 0 48px;
 
-      @media @max768 {
-        & {
-          padding: 0 16px;
-
-          .user-info-title {
-            text-align: center;
-          }
-        }
-      }
-
-      .user-info-title {
-        font-size: 16px;
+      .content-section-title {
         color: @font-color-grey45;
         margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
 
         span[data-reget] {
           margin-left: 12px;
@@ -37,17 +29,92 @@
           color: @font-color-blue;
           cursor: pointer;
         }
+
+        span[data-lab-title] {
+          font-size: 16px;
+        }
+
+        span[data-lab-content] {
+          display: flex;
+
+          > div {
+            display: flex;
+            align-items: center;
+
+            &:not(:last-child) {
+              margin-right: 24px;
+            }
+
+            > span {
+              display: flex;
+              justify-content: center;
+              border-radius: 4px;
+              overflow: hidden;
+              position: relative;
+
+              input[name="search-idx"] {
+                width: 100px;
+                background: rgba(249, 250, 252, 1);
+                padding: 2px 8px;
+                border: none;
+                outline: none;
+              }
+
+              button[data-echart-idx] {
+                margin-left: 12px;
+                border-radius: 4px;
+                padding: 4px 6px;
+                cursor: pointer;
+                background: #007AFF;
+                color: #FFF;
+              }
+
+              &[data-input]:after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 4px;
+                background: #007AFF;
+                z-index: 2;
+              }
+            }
+          }
+        }
       }
 
-      .user-info-panel {
+      @media @max768 {
+        & {
+          padding: 0 16px;
+
+          .content-section-title {
+            text-align: center;
+            display: block;
+
+            span[data-lab-content] {
+              margin-top: 8px;
+              justify-content: space-between;
+            }
+          }
+        }
+      }
+
+      .content-section-panel {
         width: 100%;
         padding: 20px;
         box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.1), -1px -2px 8px #ffffff;
         border-radius: 12px;
         display: flex;
         justify-content: space-between;
+      }
+    }
 
+    .lab-user-info {
+      .content-section-panel {
         .info-panel-left {
+          flex: 4;
+
           > div {
             //display: flex;
             //flex-wrap: wrap;
@@ -64,7 +131,7 @@
         }
 
         .info-panel-right {
-          flex: 1;
+          flex: 6;
           max-width: 60%;
           padding-left: 20px;
 
@@ -84,8 +151,12 @@
             background: rgba(249, 250, 252);
             border-radius: 12px;
 
+            .info-panel-left {
+              flex: 1;
+            }
+
             .info-panel-right {
-              width: 100%;
+              flex: 1;
               height: 50vh;
               max-width: 100%;
               padding: 12px 0 0;

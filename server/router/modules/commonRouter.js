@@ -1,7 +1,7 @@
 const router = require('@koa/router')()
 const config = require('../../config/config')
 const API = require('../../config/api')
-const { GetRouterPath } = require('../../util')
+const { GetRouterPath, getBeforeDate, formatDate } = require('../../util')
 const getRouterPath = new GetRouterPath('API_COMMON')
 const jwt = require('../../util/jwt')
 const axios = require('axios')
@@ -398,6 +398,33 @@ router.get(getRouterPath.r('GET_WORKS_STATIC'), async ctx => {
   ctx.body = {
     result,
     error
+  }
+})
+
+/**
+ * @api {get} /api/baiduIndex - 获取百度指数
+ * @apiVersion 1.0.0
+ * @apiName 获取百度指数
+ *
+ * @apiGroup commonRouter
+ * @apiSampleRequest off
+ */
+router.get(getRouterPath.r('GET_BAIDU_INDEX'), async ctx => {
+  const { value } = ctx.query
+  const { data } = await axios({
+    url: 'http://index.baidu.com/api/SearchApi/region',
+    method: 'get',
+    params: {
+      region: 0,
+      word: value,
+      startDate: formatDate(getBeforeDate(-30), 'transform', '-'),
+      endDate: formatDate(null, 'transform', '-')
+    },
+    headers: { Cookie: 'BAIDUID=9956616CC3043E0889FB2F4F7F4A3EFF:FG=1; BIDUPSID=9956616CC3043E086EA9A6048F7E8DB6; PSTM=1637923173; BDUSS=UVYV2J1TX5NT3BXMmlUd3J5ZXVLUDB-RHJpOE5oZWZRaENWa1dPaWdqZEVvZFpoSVFBQUFBJCQAAAAAAAAAAAEAAAD9Gb20yNXJ~dGns6S1xNGns6QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQUr2FEFK9hM; BDORZ=FFFB88E999055A3F8A630C64834BD6D0; BA_HECTOR=00ah8l0l85ag8h24r41gt2c8n0q; BDRCVFR[gltLrB7qNCt]=mk3SLVN4HKm; delPer=1; PSINO=6; H_PS_PSSID=35638_35105_31254_35629_35489_35457_34584_35490_35316_26350_35610; BCLID=11590000010128874477; BDSFRCVID=EIuOJexroG04RNRHFHAxUmwzwQpWxY5TDYrELPfiaimDVu-VJeC6EG0Pts1-dEu-EHtdogKK3gOTHxtF_2uxOjjg8UtVJeC6EG0Ptf8g0M5; H_BDCLCKID_SF=tJ48_CLMfC_3fP36q4rMM-LthfLX5-RLf5v4Lp7F5l8-hxc3-PJrXUkzbH_HL4rfMjkjKnOetJrxOKQphT5deMDp5a3W-l5bter4hprN3KJmqtP9bT3v5tD35pbK2-biWb7M2MbdMPbP_IoG2Mn8M4bb3qOpBtQmJeTxoUJ25DnJhhCGe6L3MtCObqAX5to05TIX3b7Efh5zfq7_bJ7KhUbQjb5wQfvlWg6O-R65Mt3GqM39WjoxQhFXQtvTKtcK2CjR-tKEQqcqEIQHQT3m5bJLqfO4-Cr4WTnbWb3cWKOJ8UbS2bOPBTD02-nBat-OQ6npaJ5nJq5nhMJmb67JDMr0exbH55ueJR4H_M5; Hm_lvt_d101ea4d2a5c67dab98251f0b5de24dc=1641099537,1641099555; Hm_lpvt_d101ea4d2a5c67dab98251f0b5de24dc=1641099910; RT="z=1&dm=baidu.com&si=308emylrqos&ss=kxwsak3i&sl=h&tt=tcr&bcn=https%3A%2F%2Ffclog.baidu.com%2Flog%2Fweirwood%3Ftype%3Dperf&ld=81wt"; __yjs_st=2_MDA5ODViMjE5MDQ5OGQwNGFmMmNiNTQ1ZTk2Y2ViYzlhMDAwZWU2NmNlNTM2NDg2MGNjZTAzMDc3ODU2N2ZkZjM2YTFhNDY5ZjU2NDYyYzMwNDU3NmViNGVhMjNlNTFlZTk0M2U5MzFjYjZhMWExOTRiNzkwMGNmNTZkMDBkM2NlYTFjZTJjODI2YWZiNzZjZWI4ZGQ3ZWQ5ZTAwNjkzMTVlM2JmODA4OWE4MjQ4ZDViOGE5OTEwNzMzMDk1ZmFhYWFiMmZlYThiMTcyODg5YjdmYTQyYTUzYzA5MjA1YzhlZjg4NDIyMzllOTkwYWUwOTY0MDM1NjhlOTcwMDY5Nl83XzgxZjdkYTI5; bdindexid=c0eaar0mbli5l6tu5ergcalj22' }
+  })
+  ctx.body = {
+    result: data,
+    error: false
   }
 })
 

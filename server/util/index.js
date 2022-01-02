@@ -83,7 +83,7 @@ exports.formatDate = (date, type, s) => {
   const dateObj = date ? new Date(date) : new Date()
   const symbol = s || '/' // 分隔符
   if (type === 'transform') { // yyyy symbol MM symbol dd
-    return `${dateObj.getFullYear()}${symbol}${dateObj.getMonth() + 1}${symbol}${(dateObj.getDate() <= 10 ? '0' : '') + dateObj.getDate()}`
+    return `${dateObj.getFullYear()}${symbol}${((dateObj.getMonth() + 1) <= 10 ? '0' : '') + (dateObj.getMonth() + 1)}${symbol}${(dateObj.getDate() <= 10 ? '0' : '') + dateObj.getDate()}`
   } else if (type === 'chinese') {
     return `${dateObj.getMonth() > 0 ? dateObj.getMonth() + 1 + ' 月 ' : ''}${dateObj.getDate()} 天 ${dateObj.getHours()} 时 ${dateObj.getMinutes()} 分`
   } else {
