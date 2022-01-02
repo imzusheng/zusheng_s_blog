@@ -47,14 +47,13 @@
 </template>
 
 <script>
-import geo from '@/assets/json/data-china.json'
 import regionMatch from '@/assets/json/region-match.json'
 import { BaiduMap, getBrowser, getDelay, getGeoPosition, getSpeed } from '@/util'
 import { onMounted, reactive, ref, watchEffect, toRaw } from 'vue'
 import { message } from 'ant-design-vue'
 import * as echarts from 'echarts/core'
 // 引入图表，图表后缀都为 Chart
-import { MapChart, BarChart } from 'echarts/charts'
+import { MapChart, BarChart, LineChart } from 'echarts/charts'
 import { VisualMapComponent, ToolboxComponent, GridComponent } from 'echarts/components'
 // 引入 Canvas 渲染器，注意引入 CanvasRenderer 或者 SVGRenderer 是必须的一步
 import { CanvasRenderer } from 'echarts/renderers'// 标签自动布局，全局过渡动画等特性
@@ -68,7 +67,8 @@ echarts.use([
   ToolboxComponent,
   MapChart,
   BarChart,
-  UniversalTransition
+  UniversalTransition,
+  LineChart
 ])
 
 export default {
@@ -118,12 +118,6 @@ export default {
       }
     })
     const baiduMap = new BaiduMap()
-    // EChart
-    const eMap = ref(HTMLElement)
-    const eChartSwitch = ref(false)
-    const eChartIndex = ref('大数据')
-    const eChartData = reactive({})
-    const eChartLoading = ref(false)
     // 获取信息
     const getUserInfo = async () => {
       // sessionStorage.setItem('ip', '{"IPAddress":"59.39.131.151","position":{"Country":"中国","Province":"广东省","City":"惠州市","Isp":"电信"}}')
@@ -143,8 +137,30 @@ export default {
               .then(res => { userInfoList.bMapPosition.value = res })
       baiduMap.drawMap('map', positionRes.value?.r.longitude, positionRes.value?.r.latitude)
     }
+    // EChart
+    const eMap = ref(HTMLElement)
+    const eChartSwitch = ref(false)
+    const eChartIndex = ref('大数据')
+    const eChartData = reactive({})
+    const eChartLoading = ref(false)
+    let mapData = null
+    // 请求地图数据
+    const getMapData = () => {
+      return new Promise(resolve => {
+        if (!mapData) {
+          store.dispatch('getExternalFile', {
+            url: 'http://cdn.zusheng.club/json/data-china.json'
+          }).then(({ result }) => {
+            mapData = result
+            resolve(mapData)
+          })
+        } else {
+          resolve(mapData)
+        }
+      })
+    }
     // 加载EChart
-    const initECharts = (type) => {
+    const initECharts = async (type) => {
       if (!eChartData?.region) return
       const dataSource = toRaw(eChartData.region.prov)
       // 键值对转换数组,排序
@@ -225,8 +241,9 @@ export default {
       const myChart = echarts.init(eMap.value, null, { renderer: 'canvas' })
       // 隐藏加载提示
       myChart.hideLoading()
+      const geoJson = await getMapData()
       // 注册地图
-      echarts.registerMap('china', geo)
+      echarts.registerMap('china', geoJson)
       // 开始加载
       myChart.setOption(options[type], true)
     }

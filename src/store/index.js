@@ -420,6 +420,11 @@ const store = createStore({
     // 获取ECharts数据
     getECharts ({ state: { api } }, payLoad) {
       return new Promise(resolve => apiService.get(api.API_COMMON.GET_BAIDU_INDEX, payLoad).then(result => resolve(result)))
+    },
+    // 获取外部文件
+    getExternalFile ({ state: { api } }, payLoad) {
+      payLoad.header = payLoad?.header || null
+      return new Promise(resolve => apiService.get(api.API_COMMON.GET_EXTERNAL_FILE, payLoad).then(result => resolve(result)))
     }
   },
   modules: {}

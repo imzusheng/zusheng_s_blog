@@ -428,6 +428,27 @@ router.get(getRouterPath.r('GET_BAIDU_INDEX'), async ctx => {
   }
 })
 
+/**
+ * @api {get} /api/externalFile externalFile - 请求外部文件
+ * @apiVersion 1.0.0
+ * @apiName 请求外部文件
+ *
+ * @apiGroup commonRouter
+ * @apiSampleRequest off
+ */
+router.get(getRouterPath.r('GET_EXTERNAL_FILE'), async (ctx) => {
+  const { data } = await axios({
+    method: 'get',
+    url: 'http://localhost:3900/api/externalFile',
+    params: ctx.query
+  })
+  console.log(data)
+  ctx.body = {
+    error: null,
+    result: data
+  }
+})
+
 // 查询是否需要初始化数据库, true则需要
 router.get(getRouterPath.r('GET_INIT_DATABASE'), async ctx => {
   const { error, result } = await config.mongoDB.queryData('user', {}, null, ctx)

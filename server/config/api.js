@@ -81,7 +81,9 @@ const API_COMMON = {
   /** 查询是否需要初始化数据库 */
   GET_INIT_DATABASE: '/initDatabase',
   /** ECharts 百度指数 */
-  GET_BAIDU_INDEX: '/baiduIndex'
+  GET_BAIDU_INDEX: '/baiduIndex',
+  /** 获取外部文件 */
+  GET_EXTERNAL_FILE: '/externalFile'
 }
 
 const API_UPLOAD = {

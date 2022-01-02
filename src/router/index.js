@@ -66,7 +66,7 @@ const routes = [
         meta: {
           keepalive: true
         },
-        component: () => import(/* webpackChunkName: "blog" */ '@/pages/views/BlogSource')
+        component: () => import(/* webpackChunkName: "blogLabs" */ '@/pages/views/BlogSource')
       },
       {
         path: 'Detail',
