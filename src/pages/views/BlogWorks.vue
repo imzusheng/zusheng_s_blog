@@ -13,13 +13,32 @@
           <div class="item-header-title">{{ item.category }}</div>
         </div>
 
-        <!-- 卡片容器 s -->
-        <ul class="works-item-list" v-if="['CINEMA 4D', '网页', '浏览器插件'].includes(item.category)">
+        <!-- photo 容器 s -->
+        <div class="photo-container" v-if="item.category === 'Photo'">
+          <div class="photo-row" v-for="(photoV, photoK) in new Array(Math.ceil(item.data.length / 3))" :key="photoK">
+            <div
+              class="photo-col"
+              v-for="(photoItem, photoKey) in photoComputed(item, photoK)"
+              :style="{width: photoItem.width}" :key="`photoKey${photoKey}`">
+              <img
+                :src="photoItem.poster"
+                :style="{ visibility: posterLoaded.includes('photo' + photoItem.poster) ? 'visible': 'hidden'}"
+                @load="posterLoad('photo',photoItem.poster)"
+                alt="poster">
+            </div>
+          </div>
+        </div>
+        <!-- photo 容器 s -->
+
+        <!-- 默认卡片容器 s -->
+        <ul class="works-item-list" v-else>
           <li class="works-list-item"
               v-for="work in item.data"
               :title="`源地址: ${work.src}`"
               :key="work._id">
             <a :href="work.src" target="_blank">
+
+              <!-- 作品封面 -->
               <figure>
                 <a-skeleton
                   :class="'photo-skeleton'"
@@ -43,7 +62,7 @@
                       <span v-if="work.hot">&nbsp;&nbsp;</span>
                       <LikeOutlined v-if="work.like"/>&nbsp;{{ work.like }}
                     </span>
-                    <span v-else-if="['网页', '浏览器插件'].includes(item.category)">
+                    <span v-else>
                       修改日期
                     </span>
                   </div>
@@ -51,8 +70,8 @@
                   <span v-if="item.category === 'CINEMA 4D'">
                     {{ work.describeDate }}
                   </span>
-                    <span v-else-if="['网页', '浏览器插件'].includes(item.category)">
-                    {{ formatDate(parseInt(work.describeDate), 'transform') }}
+                    <span v-else>
+                    {{ formatDate(work.describeDate, 'transform') }}
                   </span>
                   </div>
                 </div>
@@ -61,24 +80,7 @@
             </a>
           </li>
         </ul>
-        <!-- 卡片容器 e -->
-
-        <!-- photo 容器 s -->
-        <div class="photo-container" v-else-if="item.category === 'Photo'">
-          <div class="photo-row" v-for="(photoV, photoK) in new Array(Math.ceil(item.data.length / 3))" :key="photoK">
-            <div
-              class="photo-col"
-              v-for="(photoItem, photoKey) in photoComputed(item, photoK)"
-              :style="{width: photoItem.width}" :key="`photoKey${photoKey}`">
-              <img
-                :src="photoItem.poster"
-                :style="{ visibility: posterLoaded.includes('photo' + photoItem.poster) ? 'visible': 'hidden'}"
-                @load="posterLoad('photo',photoItem.poster)"
-                alt="poster">
-            </div>
-          </div>
-        </div>
-        <!-- photo 容器 s -->
+        <!-- 默认卡片容器 e -->
 
       </section>
     </main>
@@ -152,6 +154,9 @@ export default {
           break
         case '网页':
           order = 1
+          break
+        case 'npm Packages':
+          order = 2
           break
         case '浏览器插件':
           order = 2
