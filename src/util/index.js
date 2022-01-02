@@ -135,37 +135,27 @@ export const formatDate = (date, type) => {
 
 // 时间转换为如 “一天前”, 传入时间戳
 export const dateConvert = (date) => {
-  if (!date) return ''
+  if (!date) return '穿越了'
   const curTime = new Date()
-  const argTime = new Date(date)
+  // 时间差
   const gapTime = curTime - date
+  // 一小时的毫秒数
   const oneHour = 60 * 60 * 1000
+  // 一天的毫秒数
   const oneDay = 60 * 60 * 1000 * 24
-  const curDateResolve = {
-    fullYear: curTime.getFullYear(),
-    month: curTime.getMonth() + 1,
-    day: curTime.getDate()
-  }
-  const argDateResolve = {
-    fullYear: argTime.getFullYear(),
-    month: argTime.getMonth() + 1,
-    day: argTime.getDate()
-  }
+  // 一年的毫秒数
+  const oneYear = 60 * 60 * 1000 * 24 * 365
   if (gapTime < oneHour) {
     // 一小时内
     return `${(gapTime / 60 / 1000).toFixed(0)}分钟`
   } else if (gapTime < oneDay) {
     // 一天内
     return `${(gapTime / 3600 / 1000).toFixed(0)}小时`
-  } else if (curDateResolve.fullYear === argDateResolve.fullYear && curDateResolve.month === argDateResolve.month && curDateResolve.day !== argDateResolve.day) {
-    // 同一个月，但不在同一天
-    return `${curDateResolve.day - argDateResolve.day}天`
-  } else if (curDateResolve.fullYear === argDateResolve.fullYear && curDateResolve.month !== argDateResolve.month) {
-    // 不在同一个月
-    return `${curDateResolve.month - argDateResolve.month}月`
-  } else if (curDateResolve.fullYear !== argDateResolve.fullYear) {
-    // 不在同一年
-    return `${curDateResolve.fullYear - argDateResolve.fullYear}年`
+  } else if (gapTime < oneYear) {
+    // 一年内
+    return `${(gapTime / 3600 / 1000 / 24).toFixed(0)}天`
+  } else {
+    return '很久很久以前'
   }
 }
 
