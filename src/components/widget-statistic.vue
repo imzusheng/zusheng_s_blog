@@ -34,6 +34,7 @@ export default {
     const dateNow = ref(Date.now())
     let timer = null
     onMounted(() => {
+      // 每秒更新时间
       timer = setInterval(() => {
         dateNow.value = Date.now()
       }, 1000)
@@ -41,6 +42,7 @@ export default {
     onUnmounted(() => {
       clearInterval(timer)
     })
+    // 计算上次发布时间
     const lastReleaseTime = computed(() => {
       if (store.state.g.articles && store.state.g.articles.length > 0) {
         const show = {
@@ -49,22 +51,24 @@ export default {
           hours: 0,
           day: 0
         }
-        const befTime = store.state.g.articles[store.state.g.articles.length - 1].operate.releaseTime
+        // 最近文章的发布时间
+        const befTime = store.state.g.articles[0].operate.releaseTime
+        // 当前时间
         const curTime = dateNow.value
+        // 时间差
         const space = curTime - befTime
+        // 秒 向下取整
         const seconds = (space / 1000) < 1 ? 0 : Math.floor(space / 1000)
+        // 分钟
         const minutes = (space / 1000 / 60) < 1 ? 0 : Math.floor(space / 1000 / 60)
+        // 小时
         const hours = (space / 1000 / 60 / 60) < 1 ? 0 : Math.floor(space / 1000 / 60 / 60)
-        const day = (space / 1000 / 60 / 60 / 24) < 1 ? 0 : Math.floor(space / 1000 / 60 / 60 / 24)
-        show.day = day
-        if (hours > 0) {
-          show.hours = hours >= 24 ? hours % 24 : hours
-        }
-        if (minutes > 0) {
-          show.minutes = minutes >= 60 ? minutes % 60 : minutes
-        }
+        // 天
+        show.day = (space / 1000 / 60 / 60 / 24) < 1 ? 0 : Math.floor(space / 1000 / 60 / 60 / 24)
+        show.hours = hours >= 24 ? hours % 24 : hours
+        show.minutes = minutes >= 60 ? minutes % 60 : minutes
         show.seconds = seconds % 60
-        return `${show.day}天 ${hours}小时 ${show.minutes}分钟 ${show.seconds}秒`
+        return `${show.day}天 ${show.hours}小时 ${show.minutes}分钟 ${show.seconds}秒`
       }
       return '近期未发布文章'
     })
