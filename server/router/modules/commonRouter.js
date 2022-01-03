@@ -184,7 +184,6 @@ router.get(getRouterPath.r('GET_USER_ORIGIN'), async (ctx) => {
   if (!(/localhost|127.0.0.1/.test(IPAddress))) {
     const { data } = await axios({
       url: 'https://zusheng.club/api/userOrigin',
-      // url: 'http://localhost:3900/api/userOrigin',
       method: 'get',
       params: {
         IPAddress: IPAddress
@@ -439,10 +438,9 @@ router.get(getRouterPath.r('GET_BAIDU_INDEX'), async ctx => {
 router.get(getRouterPath.r('GET_EXTERNAL_FILE'), async (ctx) => {
   const { data } = await axios({
     method: 'get',
-    url: 'http://localhost:3900/api/externalFile',
+    url: 'https://zusheng.club/api/externalFile',
     params: ctx.query
   })
-  console.log(data)
   ctx.body = {
     error: null,
     result: data

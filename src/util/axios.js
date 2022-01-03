@@ -28,7 +28,7 @@ axios.interceptors.response.use(async function (response) {
 
   // 没有token或token已过期时,跳到登录页面
   if (response.data?.status && response.data.status === 401) {
-    console.log('@@@401')
+    console.log('@axiosCatch[401]')
     localStorage.removeItem('token')
     localStorage.removeItem('tokenExp')
     localStorage.removeItem('apiRecord')
@@ -40,13 +40,13 @@ axios.interceptors.response.use(async function (response) {
   if (response.config.baseURL === axios.defaults.baseURL) {
     // 只有访问路径前是api时才会拦截, 全局提示错误
     const { data } = response
-    if (data.error) console.error(`@axiosCatch: ${data.error}`)
+    if (data.error) console.error(`@axiosCatch[api]: ${data.error}`)
     return data.result
   } else {
     return response
   }
 }, error => {
-  console.error(`@axiosCatch: ${error}`)
+  console.error(`@axiosCatch[default]: ${error}`)
   return Promise.reject(error)
 })
 
