@@ -273,6 +273,7 @@ export const getBrowser = () => {
 // 改造mapActions
 export const mapActionsHelper = (mapActionsArr) => {
   const store = useStore()
+  // vue3需要重新绑定 $store
   const bindStore = { $store: store }
   const actionsObj = mapActions(mapActionsArr)
   Object.keys(actionsObj).forEach(val => {

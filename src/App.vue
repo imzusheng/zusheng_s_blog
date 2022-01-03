@@ -34,7 +34,7 @@ export default {
     initLogin()
     /**
      * emmmm....
-     * 这么调用除了帅
+     * 这么调用炫技
      * 编辑器还无法识别在何处调用, 老老实实用 dispatch
      * 记住这种方法
      */

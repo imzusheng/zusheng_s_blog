@@ -282,6 +282,7 @@ router.put(getRouterPath.r('PUT_BROWSE_STEP'), async (ctx) => {
           day,
           step
         } = ctx.request.body
+  // ip地址中的'.'需要转换一下 不然会识别成对象的属性访问
   const updateManySetKey = `action.${IPAddress.toString().replace(/\./g, '-')}`
   const updateMany = { $push: {} }
   updateMany.$push[updateManySetKey] = {
@@ -294,16 +295,17 @@ router.put(getRouterPath.r('PUT_BROWSE_STEP'), async (ctx) => {
     updateMany,
     { upsert: true },
     ctx)
+
   const updateOneSetKey = `article.${step._id}`
   const updateOne = { $inc: { 'article.sum': +1 } }
   updateOne.$inc[updateOneSetKey] = +1
-  const { error: err2 } = await config.mongoDB.updateOneData( // 更新 article
+  const { error: err2 } = await config.mongoDB.updateOneData( // 更新 article 访问记录+1
     'admin',
     { day: day.toString() },
     updateOne,
     { upsert: true },
     ctx)
-  const { error: err3 } = await config.mongoDB.updateOneData( // 更新总记录
+  const { error: err3 } = await config.mongoDB.updateOneData( // 更新网站访问量总记录
     'admin',
     { day: 'forever' },
     { $inc: { ReadingQuantity: +1 } },

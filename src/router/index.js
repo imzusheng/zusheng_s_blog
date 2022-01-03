@@ -177,20 +177,10 @@ const routes = [
   }
 ]
 
-// routes = routes.map((route) => addLayoutToRoute(route))
-// function addLayoutToRoute (route) {
-//   route.meta = route.meta || {}
-//   route.meta.layout = route.layout || 'default'
-//
-//   if (route.children) {
-//     route.children = route.children.map((childRoute) => addLayoutToRoute(childRoute, route.meta.layout))
-//   }
-//   return route
-// }
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  // 重置滚动条到顶部
   scrollBehavior (to) {
     const position = { top: 0, left: 0 }
     if (to.name === 'BlogDetail') {
@@ -205,7 +195,21 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // 销毁modal
   Modal.destroyAll()
-  if (['BlogDetail'].includes(to.name)) { // 进入详情页时,记录下浏览记录
+
+  // 访问管理员界面时拦截, 需要token
+  if (store.state.g.reg.Pro.test(to.path)) {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      message.error('@routerCatch: token无效')
+      deleteTokenStorage()
+      next('/login')
+    } else {
+      // 记录当前选中的菜单，以及更新面包屑数据
+      store.commit('routerBeforeEachAdmin', to)
+      next()
+    }
+  } else {
+    // 记录下浏览记录
     const { IPAddress } = store.state.g.ip
     if (IPAddress) {
       const { fullPath, query: { _id }, name } = to
@@ -218,18 +222,6 @@ router.beforeEach((to, from, next) => {
         console.log(result)
       })
     }
-    next()
-  } else if (store.state.g.reg.Pro.test(to.path)) { // 访问管理员界面时拦截
-    const token = localStorage.getItem('token')
-    if (!token) {
-      message.error('@routerCatch: token无效')
-      deleteTokenStorage()
-      next('/login')
-    } else {
-      store.commit('routerBeforeEachAdmin', to)
-      next()
-    }
-  } else {
     store.commit('routerBeforeEachDefault', to)
     next()
   }
