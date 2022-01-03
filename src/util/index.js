@@ -480,27 +480,30 @@ export class BaiduMap {
    * 绘制地图
    */
   drawMap (elId, longitude, latitude) {
-    this.loadBaiduMap().then(BMap => {
-      // 实例化Map
-      const map = new BMap.Map(elId)
-      // 创建坐标
-      const point = new BMap.Point(longitude, latitude)
-      // 绘制
-      map.centerAndZoom(point, 16)
-      // 开启鼠标滚轮缩放
-      // map.enableScrollWheelZoom(true)
-      // 地图样式
-      // map.setMapStyleV2({
-      //   styleId: 'ebc672b1ba810f859edc9477fd661e78'
-      // })
-      // 创建标注
-      const marker = new BMap.Marker(point)
-      // 将标注添加到地图中
-      map.addOverlay(marker)
-      // 添加控件
-      map.addControl(new BMap.NavigationControl())
-      map.addControl(new BMap.MapTypeControl())
-      map.addControl(new BMap.GeolocationControl())
+    return new Promise(resolve => {
+      this.loadBaiduMap().then(BMap => {
+        // 实例化Map
+        const map = new BMap.Map(elId)
+        // 创建坐标
+        const point = new BMap.Point(longitude, latitude)
+        // 绘制
+        map.centerAndZoom(point, 16)
+        // 开启鼠标滚轮缩放
+        // map.enableScrollWheelZoom(true)
+        // 地图样式
+        // map.setMapStyleV2({
+        //   styleId: 'ebc672b1ba810f859edc9477fd661e78'
+        // })
+        // 创建标注
+        const marker = new BMap.Marker(point)
+        // 将标注添加到地图中
+        map.addOverlay(marker)
+        // 添加控件
+        map.addControl(new BMap.NavigationControl())
+        map.addControl(new BMap.MapTypeControl())
+        map.addControl(new BMap.GeolocationControl())
+        resolve()
+      })
     })
   }
 
@@ -559,5 +562,13 @@ export const arrayToObject = (arr, key) => {
     return obj
   } else {
     return { ...arr }
+  }
+}
+
+export const debounce = (fn, delay) => {
+  let timer = null
+  return function () {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(fn, delay)
   }
 }
