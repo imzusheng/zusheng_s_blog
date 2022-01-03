@@ -13,6 +13,10 @@
             </div>
           </div>
           <div class="info-panel-right">
+            <a-skeleton
+              v-if="!baiduMapLoading"
+              :paragraph="{rows: 3}"
+              :title="false" active/>
             <div id="map"></div>
           </div>
         </div>
@@ -37,7 +41,12 @@
             </div>
           </span>
         </div>
-        <div class="content-section-panel" :style="{ opacity: eChartLoading ? 0.2 : 1 }">
+        <div class="content-section-panel" style="position: relative">
+          <a-skeleton
+            style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 80%"
+            v-if="!eChartInit"
+            :paragraph="{rows: 4}"
+            :title="false" active/>
           <div id="eMap" ref="eMap" style="height: 80vh; width: 100%; max-height: 400px"/>
         </div>
       </div>
@@ -48,8 +57,8 @@
 
 <script>
 import regionMatch from '@/assets/json/region-match.json'
-import { BaiduMap, getBrowser, getDelay, getGeoPosition, getSpeed } from '@/util'
-import { onMounted, reactive, ref, watchEffect, toRaw } from 'vue'
+import { BaiduMap, debounce, getBrowser, getDelay, getGeoPosition, getSpeed } from '@/util'
+import { onMounted, reactive, ref, watchEffect, toRaw, onUnmounted } from 'vue'
 import { message } from 'ant-design-vue'
 import * as echarts from 'echarts/core'
 // 引入图表，图表后缀都为 Chart
@@ -78,6 +87,7 @@ export default {
     /**
      * 以下百度地图获取信息模块
      */
+    const baiduMapLoading = ref(false)
     const userInfoList = reactive({
       ip: {
         name: 'IP 地址',
@@ -128,17 +138,17 @@ export default {
       userInfoList.ip.value = ip?.IPAddress
       userInfoList.ipPosition.value = ip?.position ? `${ip?.position?.Country} - ${ip?.position?.Province} - ${ip?.position?.City}` : '获取失败...'
       userInfoList.isp.value = ip?.position?.Isp || '获取失败...'
-      userInfoList.os.value = navigator.oscpu ||
-        navigator.userAgent.substring(navigator.userAgent.indexOf('(') + 1, navigator.userAgent.indexOf(')'))
+      userInfoList.os.value = navigator.oscpu || navigator.userAgent.substring(navigator.userAgent.indexOf('(') + 1, navigator.userAgent.indexOf(')'))
       userInfoList.browser.value = getBrowser()
-      getSpeed().then(speed => { userInfoList.speed.value = speed })
-      getDelay().then(delay => { userInfoList.delay.value = delay })
       getGeoPosition().then(geoRes => { userInfoList.geo.value = geoRes.error ? geoRes.info : geoRes.position })
       const positionRes = await baiduMap.getCurrentPosition()
       if (!positionRes.error) { userInfoList.bMap.value = positionRes.value.position }
       baiduMap.getLocationCN(positionRes.value?.r.longitude, positionRes.value?.r.latitude)
               .then(res => { userInfoList.bMapPosition.value = res })
-      baiduMap.drawMap('map', positionRes.value?.r.longitude, positionRes.value?.r.latitude)
+      await baiduMap.drawMap('map', positionRes.value?.r.longitude, positionRes.value?.r.latitude)
+      baiduMapLoading.value = true
+      getSpeed().then(speed => { userInfoList.speed.value = speed })
+      getDelay().then(delay => { userInfoList.delay.value = delay })
     }
     /**
      * 以下ECharts-百度指数模块
@@ -148,7 +158,7 @@ export default {
     const eChartIndex = ref('大数据')
     const eChartLoading = ref(false)
     // 初始化完成的标记
-    let initFlag = false
+    const eChartInit = ref(false)
     // Chart实例
     let myChart = null
     // 关键词数据
@@ -171,10 +181,10 @@ export default {
       })
     }
     // 获取数据-百度指数 - return Promise
-    const getEChartsData = () => {
+    const getEChartsData = (type) => {
       return new Promise(resolve => {
         if (eChartData?.region?.key === eChartIndex.value) {
-          message.info('换一个关键词试试吧！')
+          if (type !== 'init') message.info('换一个关键词试试吧！')
           resolve(eChartData)
         } else {
           eChartLoading.value = true
@@ -191,7 +201,7 @@ export default {
     }
     // ~挂载数据
     const setECharts = () => {
-      if (!initFlag) return
+      if (!eChartInit.value) return
       // 省份分布源数据
       const dataSource = toRaw(eChartData.region.prov)
       // 键值对转换数组,排序
@@ -283,9 +293,9 @@ export default {
       // 隐藏加载提示
       myChart.hideLoading()
       // 获取关键词搜索的数据
-      eChartData = await getEChartsData()
+      eChartData = await getEChartsData('init')
       // 初始化完成的标记
-      initFlag = true
+      eChartInit.value = true
       // 挂载数据
       setECharts()
     }
@@ -296,22 +306,34 @@ export default {
       setECharts()
     }
 
+    const resizeInit = debounce(() => {
+      myChart.dispose()
+      myChart = null
+      eChartLoading.value = true
+      eChartInit.value = false
+      initECharts()
+    }, 500)
+
     onMounted(() => {
       getUserInfo()
       initECharts()
       watchEffect(() => {
         setECharts(eChartSwitch.value)
       })
+      window.addEventListener('resize', resizeInit)
     })
 
+    onUnmounted(() => { window.removeEventListener('resize', resizeInit) })
+
     return {
-      getUserInfo,
-      searchEChartsData,
+      baiduMapLoading,
       userInfoList,
+      getUserInfo,
+      eMap,
       eChartSwitch,
       eChartIndex,
-      eChartLoading,
-      eMap
+      eChartInit,
+      searchEChartsData
     }
   }
 }
