@@ -32,7 +32,7 @@
               <span data-title>关键词：</span>
               <span data-content data-input>
                 <input type="text" name="search-idx" v-model="eChartIndex">
-                <button data-echart-idx @click="getEChartsData">确定</button>
+                <button data-echart-idx @click="searchEChartsData">确定</button>
               </span>
             </div>
           </span>
@@ -75,6 +75,9 @@ export default {
   name: 'BlogSource',
   setup () {
     const store = useStore()
+    /**
+     * 以下百度地图获取信息模块
+     */
     const userInfoList = reactive({
       ip: {
         name: 'IP 地址',
@@ -137,15 +140,22 @@ export default {
               .then(res => { userInfoList.bMapPosition.value = res })
       baiduMap.drawMap('map', positionRes.value?.r.longitude, positionRes.value?.r.latitude)
     }
-    // EChart
-    const eMap = ref(HTMLElement)
+    /**
+     * 以下ECharts-百度指数模块
+     */
+    const eMap = ref(null)
     const eChartSwitch = ref(false)
     const eChartIndex = ref('大数据')
-    const eChartData = reactive({})
     const eChartLoading = ref(false)
-    let initStatus = false
+    // 初始化完成的标记
+    let initFlag = false
+    // Chart实例
+    let myChart = null
+    // 关键词数据
+    let eChartData = null
+    // 中国地图数据
     let mapData = null
-    // 请求地图数据
+    // 请求中国地图数据 - return Promise
     const getMapData = () => {
       return new Promise(resolve => {
         if (!mapData) {
@@ -160,15 +170,35 @@ export default {
         }
       })
     }
-    // 加载EChart
-    const initECharts = async (type) => {
-      if (!eChartData?.region || initStatus) return
-      initStatus = true
+    // 获取数据-百度指数 - return Promise
+    const getEChartsData = () => {
+      return new Promise(resolve => {
+        if (eChartData?.region?.key === eChartIndex.value) {
+          message.info('换一个关键词试试吧！')
+          resolve(eChartData)
+        } else {
+          eChartLoading.value = true
+          store.dispatch('getECharts', {
+            value: eChartIndex.value,
+            time: Date.now()
+          }).then(res => {
+            eChartLoading.value = false
+            eChartData = { region: res.data.region[0] }
+            resolve(eChartData)
+          })
+        }
+      })
+    }
+    // ~挂载数据
+    const setECharts = () => {
+      if (!initFlag) return
+      // 省份分布源数据
       const dataSource = toRaw(eChartData.region.prov)
       // 键值对转换数组,排序
       const data = Object.keys(dataSource).sort((a, b) => dataSource[a] - dataSource[b]).map(v => {
         return {
           name: regionMatch[v],
+          // 不让value等于1000或0, 颜色不好看
           value: dataSource[v] === '1000' ? dataSource[v] - 1 : (dataSource[v] === 0 ? dataSource[v] + 1 : dataSource[v])
         }
       })
@@ -239,44 +269,44 @@ export default {
           animationDurationUpdate: 1000
         }
       }
+      // 开始加载
+      myChart.setOption(options[!eChartSwitch.value ? 'mapOption' : 'barOption'], true)
+    }
+    // 初始化EChart数据
+    const initECharts = async () => {
+      // 中国地图数据
+      mapData = mapData ?? await getMapData()
+      // 注册地图
+      echarts.registerMap('china', mapData)
       // 初始化
-      const myChart = echarts.init(eMap.value, null, { renderer: 'canvas' })
+      myChart = echarts.init(eMap.value, null, { renderer: 'canvas' })
       // 隐藏加载提示
       myChart.hideLoading()
-      const geoJson = await getMapData()
-      // 注册地图
-      echarts.registerMap('china', geoJson)
-      // 开始加载
-      myChart.setOption(options[type], true)
+      // 获取关键词搜索的数据
+      eChartData = await getEChartsData()
+      // 初始化完成的标记
+      initFlag = true
+      // 挂载数据
+      setECharts()
     }
-    // 获取数据-百度指数
-    const getEChartsData = () => {
-      if (eChartData?.region?.key === eChartIndex.value) {
-        message.info('换一个关键词试试吧！')
-      } else {
-        eChartLoading.value = true
-        store.dispatch('getECharts', {
-          value: eChartIndex.value,
-          time: Date.now()
-        }).then(res => {
-          eChartLoading.value = false
-          eChartData.region = res.data.region[0]
-          initECharts((!eChartSwitch.value ? 'mapOption' : 'barOption'))
-        })
-      }
+    // 搜索关键词数据
+    const searchEChartsData = async () => {
+      // 获取关键词搜索的数据
+      eChartData = await getEChartsData()
+      setECharts()
     }
 
     onMounted(() => {
       getUserInfo()
-      getEChartsData()
+      initECharts()
       watchEffect(() => {
-        initECharts((!eChartSwitch.value ? 'mapOption' : 'barOption'))
+        setECharts(eChartSwitch.value)
       })
     })
 
     return {
       getUserInfo,
-      getEChartsData,
+      searchEChartsData,
       userInfoList,
       eChartSwitch,
       eChartIndex,
