@@ -143,6 +143,7 @@ export default {
     const eChartIndex = ref('大数据')
     const eChartData = reactive({})
     const eChartLoading = ref(false)
+    let initStatus = false
     let mapData = null
     // 请求地图数据
     const getMapData = () => {
@@ -161,7 +162,8 @@ export default {
     }
     // 加载EChart
     const initECharts = async (type) => {
-      if (!eChartData?.region) return
+      if (!eChartData?.region || initStatus) return
+      initStatus = true
       const dataSource = toRaw(eChartData.region.prov)
       // 键值对转换数组,排序
       const data = Object.keys(dataSource).sort((a, b) => dataSource[a] - dataSource[b]).map(v => {
