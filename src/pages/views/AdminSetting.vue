@@ -216,15 +216,7 @@ export default {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     IP: {item.IPAddress}
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    位置: {
-                    item.position
-                      ? `${item.position.Province}
-                    ${item.position?.Province ? '-' : ''}
-                    ${item.position.City}
-                    ${item.position?.Country ? '-' : ''}
-                    ${item.position.Country}`
-                      : '无法获取'
-                  }
+                    位置: {item?.position?.address || '无法获取'}
                   </a-timeline-item>
                 }) : null
               }
