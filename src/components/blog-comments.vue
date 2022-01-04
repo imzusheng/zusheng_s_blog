@@ -1,5 +1,6 @@
 <template>
   <div class="comments" id="comments">
+
     <div :class="{'comments-common': mode !== 'demo'}">
 
       <!--  评论输入框 s   -->
@@ -195,10 +196,6 @@ export default {
       })
       curComment.value[i].actionTime = time
     }
-
-    getOsInfo().then(res => {
-      console.log(res)
-    })
 
     // 提交评论
     const handleSubmit = () => {

@@ -1,6 +1,7 @@
 <template>
   <div id="lab">
     <div class="lab-title"><h2>正在开发或探索的新玩法！</h2></div>
+
     <div class="lab-content">
 
       <div class="lab-user-info lab-content-section">
@@ -9,7 +10,10 @@
           <div class="info-panel-left">
             <div v-for="(item, key) in Object.keys(userInfoList)" :key="key">
               <span data-title>{{ userInfoList[item].name }}：</span>
-              <span data-content>{{ userInfoList[item].value || '正在获取...' }}</span>
+              <span data-content :title="userInfoList[item].value || '正在获取...'">
+                <osIcon v-if="userInfoList[item].icon" :os="userInfoList[item].icon" :type="item" size="16"/>
+                {{ userInfoList[item].value || '正在获取...' }}
+              </span>
             </div>
           </div>
           <div class="info-panel-right">
@@ -56,8 +60,9 @@
 </template>
 
 <script>
+import osIcon from '@/components/os-icon'
 import regionMatch from '@/assets/json/region-match.json'
-import { BaiduMap, debounce, getBrowser, getDelay, getGeoPosition, getSpeed } from '@/util'
+import { BaiduMap, debounce, getDelay, getGeoPosition, getOsInfo, getSpeed } from '@/util'
 import { onMounted, reactive, ref, watchEffect, toRaw, onUnmounted } from 'vue'
 import { message } from 'ant-design-vue'
 import * as echarts from 'echarts/core'
@@ -82,6 +87,9 @@ echarts.use([
 
 export default {
   name: 'BlogSource',
+  components: {
+    osIcon
+  },
   setup () {
     const store = useStore()
     /**
@@ -99,7 +107,8 @@ export default {
       },
       speed: {
         name: '网速',
-        value: ''
+        value: '',
+        icon: ''
       },
       delay: {
         name: '延迟',
@@ -109,13 +118,15 @@ export default {
         name: '运营商',
         value: ''
       },
-      browser: {
-        name: '浏览器名称',
-        value: ''
-      },
       os: {
         name: '操作系统',
-        value: ''
+        value: '',
+        icon: ''
+      },
+      browser: {
+        name: '浏览器',
+        value: '',
+        icon: ''
       },
       geo: {
         name: 'Geo 定位',
@@ -133,22 +144,37 @@ export default {
     const baiduMap = new BaiduMap()
     // 获取信息
     const getUserInfo = async () => {
-      // sessionStorage.setItem('ip', '{"IPAddress":"59.39.131.151","position":{"Country":"中国","Province":"广东省","City":"惠州市","Isp":"电信"}}')
       const ip = JSON.parse(sessionStorage.getItem('ip'))
       userInfoList.ip.value = ip?.IPAddress
       userInfoList.ipPosition.value = ip?.position ? `${ip?.position?.Country} - ${ip?.position?.Province} - ${ip?.position?.City}` : '获取失败...'
       userInfoList.isp.value = ip?.position?.Isp || '获取失败...'
-      userInfoList.os.value = navigator.oscpu || navigator.userAgent.substring(navigator.userAgent.indexOf('(') + 1, navigator.userAgent.indexOf(')'))
-      userInfoList.browser.value = getBrowser()
       getGeoPosition().then(geoRes => { userInfoList.geo.value = geoRes.error ? geoRes.info : geoRes.position })
+      getOsInfo().then(res => {
+        const os = `${res.name} ${res.version}`
+        userInfoList.os.value = os
+        userInfoList.os.icon = os.toLowerCase()
+        const browser = `${res.browserName} ${res.browserVersion}`
+        userInfoList.browser.value = browser
+        userInfoList.browser.icon = browser.toLowerCase()
+      })
+      getSpeed().then(speed => {
+        userInfoList.speed.value = speed.str
+        const speedNum = parseInt(speed.num) < 1
+        if (speedNum < 1) {
+          userInfoList.speed.icon = 'run'
+        } else if (speedNum <= 10) {
+          userInfoList.speed.icon = 'car'
+        } else if (speedNum > 10) {
+          userInfoList.speed.icon = 'jet'
+        }
+      })
+      getDelay().then(delay => { userInfoList.delay.value = delay })
       const positionRes = await baiduMap.getCurrentPosition()
       if (!positionRes.error) { userInfoList.bMap.value = positionRes.value.position }
       baiduMap.getLocationCN(positionRes.value?.r.longitude, positionRes.value?.r.latitude)
               .then(res => { userInfoList.bMapPosition.value = res })
-      await baiduMap.drawMap('map', positionRes.value?.r.longitude, positionRes.value?.r.latitude)
-      baiduMapLoading.value = true
-      getSpeed().then(speed => { userInfoList.speed.value = speed })
-      getDelay().then(delay => { userInfoList.delay.value = delay })
+      baiduMap.drawMap('map', positionRes.value?.r.longitude, positionRes.value?.r.latitude)
+              .then(() => { baiduMapLoading.value = true })
     }
     /**
      * 以下ECharts-百度指数模块

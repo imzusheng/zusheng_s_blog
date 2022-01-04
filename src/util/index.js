@@ -255,7 +255,7 @@ export const getBrowser = () => {
   const browser = {
     Opera: userAgent.indexOf('Opera') > -1, // 判断是否Opera浏览器
     IE: userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1 && !this.Opera, // 判断是否IE浏览器
-    Edge: userAgent.indexOf('Edg') > -1, // 判断是否IE的Edge浏览器
+    Edg: userAgent.indexOf('Edg') > -1, // 判断是否IE的Edge浏览器
     Firefox: userAgent.indexOf('Firefox') > -1, // 判断是否Firefox浏览器
     Safari: userAgent.indexOf('Safari') > -1 && userAgent.indexOf('Chrome') === -1, // 判断是否Safari浏览器
     Chrome: userAgent.indexOf('Chrome') > -1 && userAgent.indexOf('Safari') > -1 // 判断Chrome浏览器
@@ -275,7 +275,7 @@ export const getWindowsPlatform = () => {
   return new Promise(resolve => {
     navigator.userAgentData.getHighEntropyValues(['platformVersion']).then(ua => {
       if (navigator.userAgentData.platform === 'Windows' && ua.platformVersion.split('.')[0] >= 13) {
-        resolve('Windows 11')
+        resolve(' 11')
       } else {
         resolve()
       }
@@ -290,12 +290,17 @@ export const getOsInfo = async () => {
   const trim = str => str.replace(/^\s+/, '').replace(/\s+$/, '')
   const UA = navigator.userAgent
   const userAgent = UA.substring(UA.indexOf('(') + 1, UA.indexOf(')')).toLowerCase()
+  const tempUA = UA.substring(UA.indexOf(getBrowser()))
+  const resUA = tempUA.substring(0, tempUA.indexOf(' ')) || tempUA
+  const browserInfo = resUA.replaceAll(' ', '').split('/')
   const info = {
-    name: null,
+    name: null, // 设备名字
     version: null,
-    browserName: getBrowser(),
-    browserVersion: UA.substring(UA.lastIndexOf(' '))
+    browserName: browserInfo[0],
+    browserVersion: browserInfo[1]
   }
+
+  console.log(tempUA)
 
   if (searchStr(userAgent, ['linux', 'android'])) {
     info.name = trim(userAgent.substring(userAgent.lastIndexOf(';') + 1)).toUpperCase()
@@ -306,31 +311,31 @@ export const getOsInfo = async () => {
     const [osMatch] = [
       {
         keyword: ['windows nt 5.0'],
-        version: 'Windows 2000'
+        version: ' 2000'
       },
       {
         keyword: ['windows nt 5.1', 'windows nt 5.2'],
-        version: 'Windows XP'
+        version: ' XP'
       },
       {
         keyword: ['windows nt 6.0'],
-        version: 'Windows Vista'
+        version: ' Vista'
       },
       {
         keyword: ['windows nt 6.1', 'windows 7'],
-        version: 'Windows 7'
+        version: ' 7'
       },
       {
         keyword: ['windows nt 6.2', 'windows 8'],
-        version: 'Windows 8'
+        version: ' 8'
       },
       {
         keyword: ['windows nt 6.3'],
-        version: 'Windows 8.1'
+        version: ' 8.1'
       },
       {
         keyword: ['windows nt 6.2', 'windows nt 10.0'],
-        version: 'Windows 10'
+        version: ' 10'
       }
     ].filter(os => searchStr(userAgent, os.keyword))
     if (navigator?.userAgentData) {
@@ -433,8 +438,11 @@ export const getSpeed = () => {
       while (!result.done) {
         result = await it.next()
       }
-      const res = `${speeds.length > 1 ? ((speeds.reduce((a, b) => a + b) / speeds.length) / 1024).toFixed(2) : speeds[0]} M/s`
-      resolve(res)
+      const num = speeds.length > 1 ? ((speeds.reduce((a, b) => a + b) / speeds.length) / 1024).toFixed(2) : speeds[0]
+      resolve({
+        num,
+        str: `${num} M/s`
+      })
     }
 
     init().catch()
@@ -594,7 +602,6 @@ export class BaiduMap {
 
   /**
    * 获取IP地址
-   * @return {Promise<{}>}
    */
   getCurrentPosition () {
     return new Promise(resolve => {

@@ -121,16 +121,26 @@
           flex: 4;
 
           > div {
-            //display: flex;
-            //flex-wrap: wrap;
+            display: flex;
+            margin-bottom: 4px;
 
             &:not(:last-child) {
               margin-bottom: 8px;
             }
 
             span[data-title] {
+              white-space: nowrap;
               color: @font-color-grey45;
-              margin-bottom: 4px;
+            }
+
+            span[data-content] {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+
+              > span img {
+                transform: translate(0, -1.5px);
+              }
             }
           }
         }
