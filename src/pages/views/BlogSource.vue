@@ -159,12 +159,12 @@ export default {
       })
       getSpeed().then(speed => {
         userInfoList.speed.value = speed.str
-        const speedNum = parseInt(speed.num) < 1
+        const speedNum = parseInt(speed.num)
         if (speedNum < 1) {
           userInfoList.speed.icon = 'run'
-        } else if (speedNum <= 10) {
+        } else if (speedNum < 10) {
           userInfoList.speed.icon = 'car'
-        } else if (speedNum > 10) {
+        } else if (speedNum >= 10) {
           userInfoList.speed.icon = 'jet'
         }
       })
