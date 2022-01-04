@@ -171,8 +171,7 @@ router.get(getRouterPath.r('GET_SEARCH'), async ctx => {
  */
 router.get(getRouterPath.r('GET_USER_ORIGIN'), async (ctx) => {
   let IPAddress = ''
-  let result = null
-  let error = null
+  let res
   if (ctx.request.header.origin || ctx.request.header['x-real-ip']) {
     IPAddress =
       ctx.request.header['x-real-ip'] ||
@@ -181,22 +180,19 @@ router.get(getRouterPath.r('GET_USER_ORIGIN'), async (ctx) => {
         ctx.request.header.origin.lastIndexOf(':')
       )
   }
-  if (!(/localhost|127.0.0.1/.test(IPAddress))) {
+  if (!(/localhost/.test(IPAddress))) {
     const { data } = await axios({
       url: 'https://zusheng.club/api/userOrigin',
       method: 'get',
-      params: {
-        IPAddress: IPAddress
-      }
+      params: { IPAddress }
     })
-    result = data.result
-    error = data.error
+    res = data
   }
   ctx.body = {
-    error,
+    error: res?.error,
     result: {
-      IPAddress: IPAddress,
-      position: result ? result.result : null
+      IPAddress,
+      position: res?.error ? null : res?.result
     }
   }
 })

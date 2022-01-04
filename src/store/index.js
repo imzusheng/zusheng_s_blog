@@ -222,9 +222,9 @@ const store = createStore({
     },
     // 登录
     login ({ commit, state }, payLoad) {
-      apiService.post(state.api.API_COMMON.POST_LOGIN, Object.assign(payLoad, ...[state.g.ip, { time: Date.now() }])).then(result => {
-        if (result) commit('loginSuccess', result)
-      })
+      apiService
+        .post(state.api.API_COMMON.POST_LOGIN, Object.assign(payLoad, ...[state.g.ip, { time: Date.now() }]))
+        .then(result => { if (result) commit('loginSuccess', result) })
     },
     // 登陆前查询是否需要初始化数据库, 第一次登陆时需要
     getInitDatabase ({ state: { api } }) {

@@ -4,7 +4,7 @@
     <div class="lab-content">
 
       <div class="lab-user-info lab-content-section">
-        <div class="content-section-title">用户信息<span data-reget @click="getUserInfo">重新获取</span></div>
+        <div class="content-section-title">您的信息<span data-reget @click="getUserInfo">重新获取</span></div>
         <div class="content-section-panel">
           <div class="info-panel-left">
             <div v-for="(item, key) in Object.keys(userInfoList)" :key="key">
