@@ -1,6 +1,8 @@
 <template>
   <div class="comments" id="comments">
     <div :class="{'comments-common': mode !== 'demo'}">
+
+      <!--  评论输入框 s   -->
       <span v-if="mode === 'default'">
         <h2>留言</h2>
         <p>留言审核后将会公开，不要直接留下个人隐私信息</p>
@@ -34,6 +36,9 @@
         </a-comment>
         <!-- textarea e -->
       </span>
+      <!--  评论输入框 e   -->
+
+      <!--  评论列表 s   -->
       <a-comment
         :class="'commentEl'"
         v-for="(item, i) in curComment"
@@ -94,7 +99,7 @@
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { dateConvert, formatDate, getBeforeDate } from '@/util'
+import { dateConvert, formatDate, getBeforeDate, getOsInfo } from '@/util'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
@@ -190,17 +195,25 @@ export default {
       })
       curComment.value[i].actionTime = time
     }
+
+    getOsInfo().then(res => {
+      console.log(res)
+    })
+
     // 提交评论
     const handleSubmit = () => {
       if (commentVal.value) {
         store.dispatch('postCommentsAdd', {
           day: getBeforeDate(0),
           avatar: checkedAvatarSrc.value,
-          time: new Date().getTime(),
+          time: Date.now(),
           content: commentVal.value,
           link: router.currentRoute.value.name,
           linkId: router.currentRoute.value.query?._id || null,
-          author: store.state.g.ip
+          author: {
+            ipInfo: store.state.g.ip,
+            useAgent: ''
+          }
         }).then(result => {
           commentVal.value = ''
           message.success(result)

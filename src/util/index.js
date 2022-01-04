@@ -270,6 +270,91 @@ export const getBrowser = () => {
   return browserName
 }
 
+// chrome中判断是否是windows11
+export const getWindowsPlatform = () => {
+  return new Promise(resolve => {
+    navigator.userAgentData.getHighEntropyValues(['platformVersion']).then(ua => {
+      if (navigator.userAgentData.platform === 'Windows' && ua.platformVersion.split('.')[0] >= 13) {
+        resolve('Windows 11')
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
+// 获取操作系统信息
+export const getOsInfo = async () => {
+  // 检查是否存在该关键词
+  const searchStr = (str, keywordList) => keywordList.map(keyword => str.indexOf(keyword) > -1).includes(true)
+  const trim = str => str.replace(/^\s+/, '').replace(/\s+$/, '')
+  const UA = navigator.userAgent
+  const userAgent = UA.substring(UA.indexOf('(') + 1, UA.indexOf(')')).toLowerCase()
+  const info = {
+    name: null,
+    version: null,
+    browserName: getBrowser(),
+    browserVersion: UA.substring(UA.lastIndexOf(' '))
+  }
+
+  if (searchStr(userAgent, ['linux', 'android'])) {
+    info.name = trim(userAgent.substring(userAgent.lastIndexOf(';') + 1)).toUpperCase()
+    const cutStr = userAgent.substring(userAgent.indexOf('android'))
+    info.version = cutStr.substring(0, 1).toUpperCase() + cutStr.substring(1, cutStr.indexOf(';'))
+  } else if (searchStr(userAgent, ['win'])) {
+    info.name = 'Windows'
+    const [osMatch] = [
+      {
+        keyword: ['windows nt 5.0'],
+        version: 'Windows 2000'
+      },
+      {
+        keyword: ['windows nt 5.1', 'windows nt 5.2'],
+        version: 'Windows XP'
+      },
+      {
+        keyword: ['windows nt 6.0'],
+        version: 'Windows Vista'
+      },
+      {
+        keyword: ['windows nt 6.1', 'windows 7'],
+        version: 'Windows 7'
+      },
+      {
+        keyword: ['windows nt 6.2', 'windows 8'],
+        version: 'Windows 8'
+      },
+      {
+        keyword: ['windows nt 6.3'],
+        version: 'Windows 8.1'
+      },
+      {
+        keyword: ['windows nt 6.2', 'windows nt 10.0'],
+        version: 'Windows 10'
+      }
+    ].filter(os => searchStr(userAgent, os.keyword))
+    if (navigator?.userAgentData) {
+      info.version = await getWindowsPlatform() || osMatch.version
+    } else {
+      info.version = osMatch.version
+    }
+  } else if (searchStr(userAgent, ['mac'])) {
+    // 获取设备名：iphone
+    const device = userAgent.substring(0, userAgent.indexOf(';'))
+    // 转换为大写：iPhone
+    info.name = device.substring(0, 1) + device.substring(1, 2).toUpperCase() + device.substring(2)
+    // 找到os字段
+    const osBefString = trim(userAgent.substring(userAgent.indexOf('os') + 2))
+    info.version = 'OS ' + osBefString.substring(0, osBefString.indexOf(' ')).replaceAll('_', '.')
+  } else if (searchStr(userAgent, ['x11'])) {
+    info.name = 'Ubuntu'
+  } else if (searchStr(userAgent, ['unix', 'sunname', 'bsd'])) {
+    info.name = 'Unix'
+  }
+
+  return info
+}
+
 // 改造mapActions
 export const mapActionsHelper = (mapActionsArr) => {
   const store = useStore()
@@ -565,6 +650,7 @@ export const arrayToObject = (arr, key) => {
   }
 }
 
+// 防抖
 export const debounce = (fn, delay) => {
   let timer = null
   return function () {
