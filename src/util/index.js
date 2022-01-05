@@ -300,8 +300,6 @@ export const getOsInfo = async () => {
     browserVersion: browserInfo[1]
   }
 
-  console.log(tempUA)
-
   if (searchStr(userAgent, ['linux', 'android'])) {
     info.name = trim(userAgent.substring(userAgent.lastIndexOf(';') + 1)).toUpperCase()
     const cutStr = userAgent.substring(userAgent.indexOf('android'))
