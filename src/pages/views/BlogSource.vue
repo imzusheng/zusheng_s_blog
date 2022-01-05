@@ -96,6 +96,7 @@ export default {
      * 以下百度地图获取信息模块
      */
     const baiduMapLoading = ref(false)
+    // 信息栏
     const userInfoList = reactive({
       ip: {
         name: 'IP 地址',
@@ -146,17 +147,20 @@ export default {
     const getUserInfo = async () => {
       const ip = JSON.parse(sessionStorage.getItem('ip'))
       userInfoList.ip.value = ip?.IPAddress
-      userInfoList.ipPosition.value = ip?.position ? `${ip?.position?.Country} - ${ip?.position?.Province} - ${ip?.position?.City}` : '获取失败...'
-      userInfoList.isp.value = ip?.position?.Isp || '获取失败...'
+      userInfoList.ipPosition.value = ip?.position?.address || '无法获取...'
+      userInfoList.isp.value = ip?.position?.Isp || '无法获取...'
+      // 获取浏览器geo定位
       getGeoPosition().then(geoRes => { userInfoList.geo.value = geoRes.error ? geoRes.info : geoRes.position })
+      // 获取系统信息
       getOsInfo().then(res => {
         const os = `${res.name} ${res.version}`
-        userInfoList.os.value = os
+        userInfoList.os.value = [res.name, res.version].includes(null) ? '无法获取...' : os
         userInfoList.os.icon = os.toLowerCase()
         const browser = `${res.browserName} ${res.browserVersion}`
         userInfoList.browser.value = browser
         userInfoList.browser.icon = browser.toLowerCase()
       })
+      // 获取网速
       getSpeed().then(speed => {
         userInfoList.speed.value = speed.str
         const speedNum = parseInt(speed.num)
@@ -168,11 +172,15 @@ export default {
           userInfoList.speed.icon = 'jet'
         }
       })
+      // 获取网络延迟
       getDelay().then(delay => { userInfoList.delay.value = delay })
+      // 获取位置
       const positionRes = await baiduMap.getCurrentPosition()
-      if (!positionRes.error) { userInfoList.bMap.value = positionRes.value.position }
+      if (!positionRes.error) { userInfoList.bMap.value = positionRes.value.position } else userInfoList.bMap.value = '无法获取...'
+        // 获取位置描述
       baiduMap.getLocationCN(positionRes.value?.r.longitude, positionRes.value?.r.latitude)
               .then(res => { userInfoList.bMapPosition.value = res })
+      // 绘制百度地图
       baiduMap.drawMap('map', positionRes.value?.r.longitude, positionRes.value?.r.latitude)
               .then(() => { baiduMapLoading.value = true })
     }
@@ -331,7 +339,7 @@ export default {
       eChartData = await getEChartsData()
       setECharts()
     }
-
+    // 防抖,重新定位大小
     const resizeInit = debounce(() => {
       myChart.dispose()
       myChart = null

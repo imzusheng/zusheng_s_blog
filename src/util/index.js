@@ -632,7 +632,7 @@ export class BaiduMap {
   getLocationCN (longitude, latitude) {
     return new Promise(resolve => {
       //
-      if (!longitude || !latitude) resolve('获取失败...')
+      if (!longitude || !latitude) resolve('无法获取...')
       this.loadBaiduMap().then(BMap => {
         const myGeo = new BMap.Geocoder({ extensions_town: true })
         myGeo.getLocation(new BMap.Point(longitude, latitude), result => {
