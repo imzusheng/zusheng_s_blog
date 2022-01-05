@@ -398,6 +398,8 @@ export const getSpeed = () => {
   return new Promise(resolve => {
     const speeds = []
 
+    const date = Date.now()
+
     function makeRangeIterator (start = 0, end = Infinity, step = 1) {
       let nextIndex = start
       return {
@@ -405,13 +407,15 @@ export const getSpeed = () => {
           return new Promise(resolve => {
             if (nextIndex < end) {
               let start = null
-              const imgUrl = 'http://cdn.zusheng.club/images/speed_250kb.jpeg'
+              const imgUrl = `http://cdn.zusheng.club/images/speed_250kb.jpeg?t=${date}`
               const xhr = new XMLHttpRequest()
               xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                   const end = Date.now()
+                  // 获取文件大小
                   const size = xhr.getResponseHeader('Content-Length') / 1024
                   const speed = size * 1000 / (end - start)
+                  // 记录本次速度
                   speeds.push(speed)
                   resolve({ speed, done: false })
                 } else if (xhr.readyState === 4) {
@@ -425,6 +429,7 @@ export const getSpeed = () => {
               xhr.send()
               nextIndex += 1
             } else {
+              // 结束标记
               resolve({ done: true })
             }
           })
@@ -432,26 +437,30 @@ export const getSpeed = () => {
       }
     }
 
+    // 请求的次数
     const it = makeRangeIterator(1, 4, 1)
 
-    async function init () {
+    const init = async () => {
       let result = await it.next()
       while (!result.done) {
         result = await it.next()
       }
-      const num = speeds.length > 1 ? ((speeds.reduce((a, b) => a + b) / speeds.length) / 1024).toFixed(2) : speeds[0]
-      resolve({
+      // 速度
+      const num = speeds.length > 1
+        ? ((speeds.reduce((a, b) => a + b) / speeds.length) / 1024).toFixed(2)
+        : (speeds[0] / 1024).toFixed(2)
+      return {
         num,
         str: `${num} M/s`
-      })
+      }
     }
 
-    init().catch()
+    init().then(res => resolve(res))
   })
 }
 
 // 图片测延迟
-export const getDelay = async () => {
+export const getDelay = () => {
   return new Promise(resolve => {
     const delayList = []
 
@@ -489,10 +498,10 @@ export const getDelay = async () => {
       while (!result.done) {
         result = await it.next()
       }
-      resolve(`${(delayList.reduce((a, b) => a + b) / delayList.length).toFixed(2)} ms`)
+      return `${(delayList.reduce((a, b) => a + b) / delayList.length).toFixed(2)} ms`
     }
 
-    init().catch()
+    init().then(res => resolve(res))
   })
 }
 
@@ -505,7 +514,7 @@ export const getGeoPosition = () => {
         error: false,
         longitude: coords.longitude,
         latitude: coords.latitude,
-        position: `${coords.longitude.toFixed(6)}，${coords.latitude.toFixed(6)}`
+        position: `${coords.longitude}，${coords.latitude}`
       })
     }
     const errorCb = error => {
