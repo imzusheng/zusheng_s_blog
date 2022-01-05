@@ -125,7 +125,7 @@ import osIcon from '@/components/os-icon'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { dateConvert, formatDate, getBeforeDate, getOsInfo } from '@/util'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onActivated, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -243,8 +243,10 @@ export default {
         })
       }
     }
+    onMounted(() => {})
+
     // 获取评论数据
-    onMounted(() => {
+    onActivated(() => {
       store.dispatch('getComments', {
         link: router.currentRoute.value.name,
         linkId: router.currentRoute.value.query?._id || null
