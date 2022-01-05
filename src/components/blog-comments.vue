@@ -73,7 +73,13 @@
             </span>
           </span>
         </template>
-        <template #author><a>{{ i + 1 }} L</a></template>
+        <template #author>
+          <a>
+            <span style="color: #2997ff; font-size: 16px; font-weight: bold;">{{ item.author.ipInfo.IPAddress }}</span>
+            <br>
+            {{ afterConvert(item.time) }}
+          </a>
+        </template>
         <template #avatar>
           <a-avatar
             :src="item.avatar"
@@ -87,10 +93,27 @@
         </template>
         <template #datetime>
           <a-tooltip :title="formatDate(item.time)">
-            <span>{{ afterConvert(item.time) }}</span>
+            <span style="display: flex; color: #999" v-if="item.author.useAgent?.browserName">
+              （
+              <osIcon
+                :os="item.author.useAgent.browserName.toLowerCase()"
+                :style="{transform: 'translate(0, -1px)', margin: '0 4px 0 0'}"
+                type="browser"
+                size="14"/>
+              {{ item.author.useAgent.browserName + ' ' + item.author?.useAgent.browserVersion }}
+              &nbsp;&nbsp;<osIcon
+              :os="item.author.useAgent.name.toLowerCase()"
+              :style="{transform: 'translate(0, -1px)', margin: '0 4px 0 0'}"
+              type="os"
+              size="14"/>
+              {{ item.author.useAgent.name + ' ' + item.author.useAgent.version }}
+              ）
+              来自：{{ item.author.ipInfo.position.address }}</span>
           </a-tooltip>
         </template>
       </a-comment>
+      <!--  评论列表 e   -->
+
     </div>
     <a-empty description="没有更多数据" v-show="mode === 'demo' && curComment?.length === 0"/>
   </div>
@@ -98,6 +121,7 @@
 
 <script>
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons-vue'
+import osIcon from '@/components/os-icon'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { dateConvert, formatDate, getBeforeDate, getOsInfo } from '@/util'
@@ -108,6 +132,7 @@ export default {
   name: 'blogComments',
   props: ['mode'], // 如果是demo则为展示模式，仅显示评论列表
   components: {
+    osIcon,
     DislikeFilled,
     DislikeOutlined,
     LikeFilled,
@@ -198,7 +223,8 @@ export default {
     }
 
     // 提交评论
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+      const useAgent = await getOsInfo()
       if (commentVal.value) {
         store.dispatch('postCommentsAdd', {
           day: getBeforeDate(0),
@@ -209,7 +235,7 @@ export default {
           linkId: router.currentRoute.value.query?._id || null,
           author: {
             ipInfo: store.state.g.ip,
-            useAgent: ''
+            useAgent
           }
         }).then(result => {
           commentVal.value = ''

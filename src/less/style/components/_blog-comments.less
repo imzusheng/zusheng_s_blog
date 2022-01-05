@@ -57,6 +57,26 @@
       padding: 8px 16px;
       border-radius: 16px;
       box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.1), -1px -2px 10px #ffffff;
+
+      .ant-comment-avatar {
+        --avatar-size: 36px;
+
+        > span {
+          height: var(--avatar-size);
+          width: var(--avatar-size);
+
+          > img {
+            height: inherit;
+            width: inherit;
+          }
+        }
+      }
+
+      .ant-comment-content {
+        .ant-comment-content-author {
+          margin-bottom: 16px;
+        }
+      }
     }
   }
 
@@ -107,7 +127,7 @@
         }
       }
 
-      .comments-common{
+      .comments-common {
         width: 100%;
       }
     }

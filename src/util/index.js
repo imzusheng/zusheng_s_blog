@@ -267,7 +267,15 @@ export const getBrowser = () => {
       return val
     }
   })
-  return browserName
+
+  const UA = navigator.userAgent
+  const tempUA = UA.substring(UA.indexOf(browserName))
+  const resUA = tempUA.substring(0, tempUA.indexOf(' ')) || tempUA
+  const browserInfo = resUA.replaceAll(' ', '').split('/')
+  return {
+    browserName: browserInfo[0],
+    browserVersion: browserInfo[1]
+  }
 }
 
 // chrome中判断是否是windows11
@@ -290,14 +298,9 @@ export const getOsInfo = async () => {
   const trim = str => str.replace(/^\s+/, '').replace(/\s+$/, '')
   const UA = navigator.userAgent
   const userAgent = UA.substring(UA.indexOf('(') + 1, UA.indexOf(')')).toLowerCase()
-  const tempUA = UA.substring(UA.indexOf(getBrowser()))
-  const resUA = tempUA.substring(0, tempUA.indexOf(' ')) || tempUA
-  const browserInfo = resUA.replaceAll(' ', '').split('/')
   const info = {
     name: null, // 设备名字
-    version: null,
-    browserName: browserInfo[0],
-    browserVersion: browserInfo[1]
+    version: null
   }
 
   if (searchStr(userAgent, ['linux', 'android'])) {
@@ -355,7 +358,7 @@ export const getOsInfo = async () => {
     info.name = 'Unix'
   }
 
-  return info
+  return Object.assign(info, getBrowser())
 }
 
 // 改造mapActions
