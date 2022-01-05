@@ -94,21 +94,21 @@
         <template #datetime>
           <a-tooltip :title="formatDate(item.time)">
             <span style="display: flex; color: #999" v-if="item.author.useAgent?.browserName">
-              （
+              <span data-ua>（</span>
               <osIcon
                 :os="item.author.useAgent.browserName.toLowerCase()"
                 :style="{transform: 'translate(0, -1px)', margin: '0 4px 0 0'}"
                 type="browser"
                 size="14"/>
-              {{ item.author.useAgent.browserName + ' ' + item.author?.useAgent.browserVersion }}
+              <span data-ua>{{ item.author.useAgent.browserName + ' ' + item.author?.useAgent.browserVersion }}</span>
               &nbsp;&nbsp;<osIcon
               :os="item.author.useAgent.name.toLowerCase()"
               :style="{transform: 'translate(0, -1px)', margin: '0 4px 0 0'}"
               type="os"
               size="14"/>
-              {{ item.author.useAgent.name + ' ' + item.author.useAgent.version }}
-              ）
-              来自：{{ item.author.ipInfo.position.address }}</span>
+              <span data-ua>{{ item.author.useAgent.name + ' ' + item.author.useAgent.version }}</span>
+              <span data-ua>）</span>
+              <span data-ua>来自：</span>{{ item.author.ipInfo.position.address }}</span>
           </a-tooltip>
         </template>
       </a-comment>
