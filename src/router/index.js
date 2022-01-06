@@ -182,13 +182,13 @@ const router = createRouter({
   routes,
   // 重置滚动条到顶部
   scrollBehavior (to) {
-    const position = { top: 0, left: 0 }
-    if (to.name === 'BlogDetail') {
-      position.top = 0
-    } else if (to.name === 'BlogHome') {
-      position.top = store.state.g.beforeReadScrollTop
-    }
-    return position
+    return new Promise(resolve => {
+      const position = { top: 0, left: 0 }
+      if (to.name === 'BlogHome') {
+        position.top = store.state.g.beforeReadScrollTop
+      }
+      resolve(position)
+    })
   }
 })
 
