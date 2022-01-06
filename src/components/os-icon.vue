@@ -54,6 +54,12 @@
          :style="{height: `${size}px`, width: `${size}px`}">
   </span>
 
+  <span v-else>
+    <!--  map -->
+    <img v-if="os.indexOf('map') > -1" src="../assets/img/icon/map.svg" alt="map"
+         :style="{height: `${size}px`, width: `${size}px`}">
+  </span>
+
 </template>
 
 <script>

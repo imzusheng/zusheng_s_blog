@@ -78,22 +78,28 @@
             <span style="color: #2997ff; font-size: 16px; font-weight: bold;">{{
                 item.author?.ipInfo?.IPAddress || (i + 1) + 'L'
               }}</span>
-            &nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <!-- UA s -->
             <span style="display: flex; color: #999" v-if="item.author.useAgent?.browserName">
               <osIcon
                 :os="(item.author.useAgent.browserName + item.author.useAgent.browserVersion).toLowerCase()"
-                :style="{transform: 'translate(0, -1px)', margin: '0 4px 0 0'}"
+                :style="{transform: 'translate(0, -1px)', margin: '0 3px 0 0'}"
                 type="browser"
                 size="12"/>
-              <span data-ua>{{ item.author.useAgent.browserName + ' ' + item.author.useAgent.browserVersion }}&nbsp;&nbsp;</span>
+              <span data-ua>{{ item.author.useAgent.browserName + ' ' + item.author.useAgent.browserVersion }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
               <osIcon
                 :os="item.author.useAgent.name.toLowerCase()"
-                :style="{transform: 'translate(0, -1px)', margin: '0 4px 0 0'}"
+                :style="{transform: 'translate(0, -1px)', margin: '0 3px 0 0'}"
                 type="os"
                 size="12"/>
-              <span data-ua>{{ item.author.useAgent.name + ' ' + item.author.useAgent.version }}</span>
-              <span data-ua>&nbsp;&nbsp;来自：</span>{{ item.author.ipInfo.position.address }}
+              <span data-ua>
+                {{ item.author.useAgent.name + ' ' + item.author.useAgent.version }}
+                &nbsp;&nbsp;&nbsp;&nbsp;
+              </span>
+              <span data-ua>
+                <osIcon os="map" :style="{margin: '-1.5px 3px 0 0'}" type="default" size="12"/>
+              </span>
+              {{ item.author.ipInfo.position.address }}
             </span>
             <!-- UA e -->
           </a>
