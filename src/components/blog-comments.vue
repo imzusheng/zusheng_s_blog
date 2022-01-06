@@ -75,7 +75,7 @@
         </template>
         <template #author>
           <a>
-            <span style="color: #2997ff; font-size: 16px; font-weight: bold;">{{ item.author.ipInfo.IPAddress }}</span>
+            <span style="color: #2997ff; font-size: 16px; font-weight: bold;">{{ item.author?.ipInfo?.IPAddress }}</span>
             <br>
             {{ afterConvert(item.time) }}
           </a>
