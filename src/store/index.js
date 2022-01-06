@@ -14,10 +14,10 @@ const store = createStore({
       },
       scrollWidth: getScrollWidth, // 滚动条宽度
       menuConfig: {
-        anchor: localStorage.getItem('anchor') !== null ? (localStorage.getItem('anchor') !== 'false') : true, // 开启
-        theme: localStorage.getItem('theme') !== null ? (localStorage.getItem('theme') !== 'false') : false, // 默认关闭
-        toTop: localStorage.getItem('toTop') !== null ? (localStorage.getItem('toTop') !== 'false') : true, // 默认打开
-        codeTheme: localStorage.getItem('codeTheme') !== null ? localStorage.getItem('codeTheme') : 'hljs-agate',
+        anchor: localStorage.getItem('anchor') !== null ? JSON.parse(localStorage.getItem('anchor')) : true, // 开启
+        theme: localStorage.getItem('theme') !== null ? JSON.parse(localStorage.getItem('theme')) : false, // 默认关闭
+        toTop: localStorage.getItem('toTop') !== null ? JSON.parse(localStorage.getItem('toTop')) : true, // 默认打开
+        codeTheme: localStorage.getItem('codeTheme') ?? 'hljs-agate',
         codeThemeList: [
           {
             value: 'hljs-agate',
