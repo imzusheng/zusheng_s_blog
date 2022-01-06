@@ -52,14 +52,18 @@
     </li>
   </ul>
   <a-empty description="没有更多数据" v-show="mode === 'demo' && data.length === 0"/>
+  <div data-break style="height: 64px"></div>
   <p style="text-align: center; font-size: 16px; color: #999">迁移中...</p>
   <p style="display: flex; justify-content: center; align-items: center; color: #999">
     <img src="../assets/img/icon/wordpress.svg" alt="wordpress" style="height: 24px; width: 24px">
     &nbsp;
+    &nbsp;
     <span style="color: #777">></span><span style="color: #888">></span><span style="color: #999">></span>
+    &nbsp;
     &nbsp;
     <img src="../assets/img/icon/home.svg" alt="home" style="height: 24px; width: 24px">
   </p>
+  <div data-break style="height: 64px"></div>
 </template>
 
 <script>
