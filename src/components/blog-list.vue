@@ -5,6 +5,7 @@
       v-for="(item,i) in data"
       :key="i" @click="toDetail(item._id)">
       <div class="article-container">
+
         <div class="article-topic">
           <span>{{ dateConvert(item.operate.releaseTime) }}前</span>
           <span data-type="divider">|</span>
@@ -16,13 +17,14 @@
             </div>
           </span>
         </div>
+
         <div class="article-content">
           <div class="article-content-left">
             <div class="article-content-title">
-              {{ item.title }}
+              <span>{{ item.title }}</span>
             </div>
             <div class="article-content-describe">
-              {{ item.content }}
+              <span>{{ item.content }}</span>
             </div>
             <div class="article-content-operate user-select-not">
               <span>
@@ -36,10 +38,16 @@
               </span>
             </div>
           </div>
-          <div class="article-content-right" v-if="item.poster">
-            <img :src="store.state.api.API_ROOT.BASE_URL + '/assets?filename=' + item.poster" alt="poster">
+          <div class="article-content-right"
+               v-if="item.poster"
+               :style="{visibility: imgOnLoadList.includes(item.poster + i) ? 'visible' : 'hidden'}">
+            <img
+              :src="store.state.api.API_ROOT.BASE_URL + '/assets?filename=' + item.poster"
+              @load="imgOnLoad(item.poster + i)"
+              alt="poster">
           </div>
         </div>
+
       </div>
     </li>
   </ul>
@@ -59,7 +67,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { dateConvert, formatDate, showEl, textClip } from '@/util'
 import { FireFilled, MessageFilled } from '@ant-design/icons-vue'
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 
 export default {
   name: 'blog-list',
@@ -86,6 +94,9 @@ export default {
         }
       })
     }
+    // 已加载完成的图片列表
+    const imgOnLoadList = reactive([])
+    const imgOnLoad = poster => imgOnLoadList.push(poster)
     return {
       data,
       store,
@@ -93,7 +104,9 @@ export default {
       formatDate,
       textClip,
       showEl,
-      dateConvert
+      dateConvert,
+      imgOnLoadList,
+      imgOnLoad
     }
   }
 }
