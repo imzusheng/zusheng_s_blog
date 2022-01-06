@@ -4,6 +4,7 @@ import { message } from 'ant-design-vue'
 
 // 按需引入
 import hljs from 'highlight.js/lib/core'
+
 hljs.registerLanguage('javascript', require('highlight.js/lib/languages/javascript'))
 hljs.registerLanguage('shell', require('highlight.js/lib/languages/shell'))
 hljs.registerLanguage('bash', require('highlight.js/lib/languages/bash'))
@@ -59,8 +60,18 @@ function createTopBar (title) {
   // 右div
   const divElementRight = document.createElement('div')
   divElementRight.innerText = 'COPY'
-  divElementRight.addEventListener('click', () => {
-    message.info('自己动动手！')
+  divElementRight.addEventListener('click', e => {
+    const clipboardObj = navigator.clipboard
+    if (clipboardObj) {
+      const codeText = e.target.parentElement.parentElement.querySelector('code').innerText
+      clipboardObj.writeText(codeText).then(() => {
+        message.success('复制成功！')
+      }).catch(e => {
+        message.error(`复制失败，${e}`)
+      })
+    } else {
+      message.info('当前浏览器不支持（Clipboard API）一键复制！')
+    }
   })
 
   divElement.append(divElementLeft)
