@@ -74,27 +74,13 @@
           </span>
         </template>
         <template #author>
-          <a>
-            <span style="color: #2997ff; font-size: 16px; font-weight: bold;">{{ item.author?.ipInfo?.IPAddress }}</span>
-            <br>
-            {{ afterConvert(item.time) }}
-          </a>
-        </template>
-        <template #avatar>
-          <a-avatar
-            :src="item.avatar"
-            alt="Avatar"
-          />
-        </template>
-        <template #content>
-          <p>
-            {{ item.content }}
-          </p>
-        </template>
-        <template #datetime>
-          <a-tooltip :title="formatDate(item.time)">
+          <a style="display: flex">
+            <span style="color: #2997ff; font-size: 16px; font-weight: bold;">{{
+                item.author?.ipInfo?.IPAddress || (i + 1) + 'L'
+              }}</span>
+            &nbsp;&nbsp;
+            <!-- UA s -->
             <span style="display: flex; color: #999" v-if="item.author.useAgent?.browserName">
-              <span data-ua>（</span>
               <osIcon
                 :os="(item.author.useAgent.browserName + item.author.useAgent.browserVersion).toLowerCase()"
                 :style="{transform: 'translate(0, -1px)', margin: '0 4px 0 0'}"
@@ -107,10 +93,21 @@
                 type="os"
                 size="12"/>
               <span data-ua>{{ item.author.useAgent.name + ' ' + item.author.useAgent.version }}</span>
-              <span data-ua>）</span>
-              <span data-ua>来自：</span>{{ item.author.ipInfo.position.address }}
+              <span data-ua>&nbsp;&nbsp;来自：</span>{{ item.author.ipInfo.position.address }}
             </span>
-          </a-tooltip>
+            <!-- UA e -->
+          </a>
+        </template>
+        <template #avatar>
+          <a-avatar :src="item.avatar" alt="Avatar"/>
+        </template>
+        <template #content>
+          <p>
+            {{ item.content }}
+          </p>
+        </template>
+        <template #datetime>
+          {{ afterConvert(item.time) }}
         </template>
       </a-comment>
       <!--  评论列表 e   -->
