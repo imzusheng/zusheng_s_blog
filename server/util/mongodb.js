@@ -27,10 +27,13 @@ module.exports = class MongoDB {
     return new Promise((resolve, reject) => {
       if (!this.db) {
         MongoClient.connect(this.config.mongodb.url, (err, client) => {
-          if (err) reject(err)
-          console.log('-- mongodb.js -- 连接成功')
-          this.db = client.db(this.config.mongodb.dbName)
-          resolve(this.db)
+          if (err) {
+            reject(err)
+          } else {
+            console.log('-- mongodb.js -- 连接成功')
+            this.db = client.db(this.config.mongodb.dbName)
+            resolve(this.db)
+          }
         })
       } else {
         resolve(this.db)

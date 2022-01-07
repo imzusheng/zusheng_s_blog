@@ -1,4 +1,4 @@
-const config = require('./config')
+// const config = require('./config')
 
 const API_ARTICLES = {
   /** 获取文章 */
@@ -103,7 +103,8 @@ const API_STATIC = {
 }
 
 const API_ROOT = {
-  BASE_URL: process.env.NODE_ENV === 'development' ? `http://localhost:${config.serverPort}` : 'https://blog.zusheng.club',
+  // BASE_URL: process.env.NODE_ENV === 'development' ? `http://localhost:${config.serverPort}` : 'https://blog.zusheng.club',
+  BASE_URL: 'https://blog.zusheng.club',
   BASE_URL_PREFIX: '/api'
 }
 

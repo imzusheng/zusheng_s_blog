@@ -25,3 +25,4 @@ pnpm-debug.log*
 package-lock.json
 /server/package-lock.json
 /server/apidoc/
+server/config/config.js
