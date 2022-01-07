@@ -10,7 +10,7 @@ module.exports = {
     logs: path.resolve('./logs')
   },
   mongodb: {
-    url: 'mongodb://localhost:27017/blog?authSource=admin', // ?authSource=admin
+    url: 'mongodb://localhost:27017/blog?authSource=admin',
     dbName: 'blog'
   },
   koaBodyOpt: { // 用koaBody接收文件，koa-multer我有洁癖受不了
@@ -28,6 +28,6 @@ module.exports = {
     }
   },
   jwtOpt: {
-    key: 'shhhhh'
+    key: 'shhhhhh'
   }
 }
