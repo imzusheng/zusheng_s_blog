@@ -14,7 +14,42 @@ import '@/less/style/index.less'
 // import defaultLayout from '@/layouts/default'
 // import adminLayout from '@/layouts/admin'
 // ant-design-vue 按需引入
-import { Anchor, Avatar, Breadcrumb, Button, Card, Col, Comment, Drawer, Dropdown, Empty, Form, Image, Input, Layout, List, Menu, message, Modal, PageHeader, Popconfirm, Result, Row, Select, Skeleton, Statistic, Steps, Switch, Table, Tabs, Tag, Timeline, Tooltip, Upload } from 'ant-design-vue'
+import {
+  BackTop,
+  Anchor,
+  Avatar,
+  Breadcrumb,
+  Button,
+  Card,
+  Col,
+  Comment,
+  Drawer,
+  Dropdown,
+  Empty,
+  Form,
+  Image,
+  Input,
+  Layout,
+  List,
+  Menu,
+  message,
+  Modal,
+  PageHeader,
+  Popconfirm,
+  Result,
+  Row,
+  Select,
+  Skeleton,
+  Statistic,
+  Steps,
+  Switch,
+  Table,
+  Tabs,
+  Tag,
+  Timeline,
+  Tooltip,
+  Upload
+} from 'ant-design-vue'
 
 message.config({
   duration: 3,
@@ -54,6 +89,7 @@ const app = createApp(App)
   .use(Anchor)
   .use(Popconfirm)
   .use(Timeline)
+  .use(BackTop)
   .use(hljsDirective)
   .use(store)
   .use(router)
@@ -65,7 +101,10 @@ const app = createApp(App)
  */
 const apiRecord = localStorage.getItem('apiRecord')
 if (apiRecord) { // 如果本地存在apiConfig，则本地初始化
-  const { api, time } = JSON.parse(apiRecord)
+  const {
+    api,
+    time
+  } = JSON.parse(apiRecord)
   if (Date.now() - time <= 1000 * 60 * 60) { // 保质期没过，则继续使用
     store.commit('recordApi', Object.freeze(api))
     app.mount('#app')
@@ -79,11 +118,11 @@ if (apiRecord) { // 如果本地存在apiConfig，则本地初始化
 // 从服务器获取api配置信息
 function remoteInit () {
   store.dispatch('initConfig').then(({
-    data: {
-      result,
-      error
-    }
-  }) => {
+                                       data: {
+                                         result,
+                                         error
+                                       }
+                                     }) => {
     // 获取 api 配置文件
     // app.config.globalProperties.$api =
     // 配置文件无误

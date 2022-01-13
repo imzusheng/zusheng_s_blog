@@ -4,7 +4,7 @@
 -->
 
 <template>
-  <ToTopBtn v-show="store.state.g.menuConfig.toTop"/>
+  <a-back-top v-show="store.state.g.menuConfig.toTop"/>
   <BlogHeader/>
   <router-view v-if="router.currentRoute.value.meta.keepalive" v-slot="{ Component }">
     <keep-alive>
@@ -23,7 +23,7 @@
 import gDrawer from '@/components/g-drawer'
 import BlogHeader from '@/components/blog-header'
 import BlogFooter from '@/components/blog-footer'
-import ToTopBtn from '@/components/toTopBtn'
+// import ToTopBtn from '@/components/toTopBtn'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -32,8 +32,8 @@ export default {
   components: {
     gDrawer,
     BlogHeader,
-    BlogFooter,
-    ToTopBtn
+    BlogFooter
+    // ToTopBtn
   },
   setup () {
     const store = useStore()
