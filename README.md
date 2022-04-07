@@ -106,7 +106,7 @@
 * **markdown-it**
 * **jsonwebtoken**
 
-### 一起学习
+### 如果对你有用，star一下吧！
 
 [comment]: <> (feat: 添加新特性)
 
@@ -123,3 +123,5 @@
 [comment]: <> (test: 增加测试用例)
 
 [comment]: <> (chore: 改变构建流程、或者增加依赖库、工具等)
+
+[![Stargazers repo roster for @imzusheng/zusheng_s_blog](https://reporoster.com/stars/imzusheng/zusheng_s_blog)](https://github.com/imzusheng/zusheng_s_blog/stargazers)

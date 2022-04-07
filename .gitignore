@@ -26,3 +26,4 @@ package-lock.json
 /server/package-lock.json
 /server/apidoc/
 /server/config/config_bak.js
+/yarn.lock
